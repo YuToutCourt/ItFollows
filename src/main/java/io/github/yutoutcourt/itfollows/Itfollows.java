@@ -7,6 +7,7 @@ import io.github.yutoutcourt.itfollows.fatigue.FatigueManager;
 import io.github.yutoutcourt.itfollows.entity.ModEntities;
 import io.github.yutoutcourt.itfollows.net.ItFollowsNetworking;
 import io.github.yutoutcourt.itfollows.sieste.SiesteManager;
+import io.github.yutoutcourt.itfollows.sound.ModSounds;
 import io.github.yutoutcourt.itfollows.tracking.HauntController;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
@@ -23,8 +24,9 @@ public class Itfollows implements ModInitializer {
 
     @Override
     public void onInitialize() {
-        // Phase 0 : config + réseau.
+        // Phase 0 : config + réseau + sons custom.
         ItFollowsConfig.get();
+        ModSounds.register();
         ItFollowsNetworking.registerServer();
 
         // Phase 1 : fatigue.

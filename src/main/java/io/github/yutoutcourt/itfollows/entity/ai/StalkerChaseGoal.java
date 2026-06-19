@@ -85,12 +85,13 @@ public final class StalkerChaseGoal extends Goal {
 
     @Override
     public boolean canUse() {
-        return stalker.resolveTarget() != null;
+        // Un leurre (silhouette / « LOOK BEHIND YOU ») reste immobile : il ne traque pas.
+        return !stalker.isDecoy() && stalker.resolveTarget() != null;
     }
 
     @Override
     public boolean canContinueToUse() {
-        return stalker.resolveTarget() != null;
+        return !stalker.isDecoy() && stalker.resolveTarget() != null;
     }
 
     @Override

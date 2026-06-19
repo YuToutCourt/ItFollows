@@ -2,20 +2,26 @@ package io.github.yutoutcourt.itfollows.command;
 
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.arguments.FloatArgumentType;
+import com.mojang.brigadier.arguments.StringArgumentType;
 import com.mojang.brigadier.context.CommandContext;
+import com.mojang.brigadier.suggestion.SuggestionProvider;
 import io.github.yutoutcourt.itfollows.config.ItFollowsConfig;
 import io.github.yutoutcourt.itfollows.entity.StalkerEntity;
 import io.github.yutoutcourt.itfollows.fatigue.FatigueManager;
 import io.github.yutoutcourt.itfollows.tracking.HauntController;
+import io.github.yutoutcourt.itfollows.tracking.HauntPhase;
 import io.github.yutoutcourt.itfollows.tracking.StalkTrackerState;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
+import net.minecraft.commands.SharedSuggestionProvider;
 import net.minecraft.commands.arguments.EntityArgument;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.phys.Vec3;
 
+import java.util.Arrays;
+import java.util.Locale;
 import java.util.UUID;
 
 /**
@@ -23,6 +29,12 @@ import java.util.UUID;
  * la fatigue en jeu. Sert de principal outil de vérification manuelle.
  */
 public final class ItFollowsCommand {
+
+    /** Auto-complétion des noms de phase (minuscules) pour {@code /itfollows stalker phase <phase>}. */
+    private static final SuggestionProvider<CommandSourceStack> PHASE_SUGGESTIONS = (ctx, builder) ->
+            SharedSuggestionProvider.suggest(
+                    Arrays.stream(HauntPhase.values()).map(p -> p.name().toLowerCase(Locale.ROOT)),
+                    builder);
 
     private ItFollowsCommand() {
     }
@@ -55,6 +67,18 @@ public final class ItFollowsCommand {
                         .then(Commands.literal("target")
                                 .then(Commands.argument("player", EntityArgument.player())
                                         .executes(ctx -> forceTarget(ctx, EntityArgument.getPlayer(ctx, "player")))))
+                        .then(Commands.literal("escalate")
+                                .executes(ctx -> forceEscalation(ctx, ctx.getSource().getPlayerOrException()))
+                                .then(Commands.argument("player", EntityArgument.player())
+                                        .executes(ctx -> forceEscalation(ctx, EntityArgument.getPlayer(ctx, "player")))))
+                        .then(Commands.literal("phase")
+                                .then(Commands.argument("phase", StringArgumentType.word())
+                                        .suggests(PHASE_SUGGESTIONS)
+                                        .executes(ctx -> forcePhase(ctx, StringArgumentType.getString(ctx, "phase"), null))
+                                        .then(Commands.argument("player", EntityArgument.player())
+                                                .executes(ctx -> forcePhase(ctx,
+                                                        StringArgumentType.getString(ctx, "phase"),
+                                                        EntityArgument.getPlayer(ctx, "player"))))))
                         .then(Commands.literal("despawn")
                                 .executes(ItFollowsCommand::despawnStalker))
                         .then(Commands.literal("status")
@@ -90,6 +114,33 @@ public final class ItFollowsCommand {
         HauntController.forceTarget(server, player);
         ctx.getSource().sendSuccess(() -> Component.literal(
                 "Entité forcée sur " + player.getName().getString() + " (grâce ignorée)."), true);
+        return 1;
+    }
+
+    private static int forceEscalation(CommandContext<CommandSourceStack> ctx, ServerPlayer player) {
+        MinecraftServer server = ctx.getSource().getServer();
+        HauntController.forceEscalation(server, player);
+        ctx.getSource().sendSuccess(() -> Component.literal(
+                "Escalade démarrée sur " + player.getName().getString() + " (étape 1 : bruits lointains)."), true);
+        return 1;
+    }
+
+    private static int forcePhase(CommandContext<CommandSourceStack> ctx, String phaseName, ServerPlayer player) {
+        MinecraftServer server = ctx.getSource().getServer();
+        HauntPhase phase;
+        try {
+            phase = HauntPhase.valueOf(phaseName.toUpperCase(Locale.ROOT));
+        } catch (IllegalArgumentException e) {
+            ctx.getSource().sendFailure(Component.literal("Phase inconnue : " + phaseName));
+            return 0;
+        }
+        boolean ok = HauntController.forcePhase(server, player, phase);
+        if (!ok) {
+            ctx.getSource().sendFailure(Component.literal(
+                    "Aucune cible : précise un joueur (/itfollows stalker phase " + phaseName + " <joueur>)."));
+            return 0;
+        }
+        ctx.getSource().sendSuccess(() -> Component.literal("Phase forcée : " + phase.name()), true);
         return 1;
     }
 
@@ -134,11 +185,11 @@ public final class ItFollowsCommand {
 
         String range = HauntController.describeRange(server, ItFollowsConfig.get());
         ctx.getSource().sendSuccess(() -> Component.literal(String.format(
-                "Traque — cible : %s | entité : %s | seuils : %s | phase : %d | forcée : %s | grâce restante : %ds",
+                "Traque — cible : %s | entité : %s | seuils : %s | phase : %s | forcée : %s | grâce restante : %ds",
                 targetName,
                 position,
                 range,
-                state.getPhase(),
+                state.getHauntPhase().name(),
                 HauntController.isForced() ? "oui" : "non",
                 grace / 20)), false);
         return 1;

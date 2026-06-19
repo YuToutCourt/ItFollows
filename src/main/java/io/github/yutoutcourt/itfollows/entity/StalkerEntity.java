@@ -77,6 +77,12 @@ public class StalkerEntity extends PathfinderMob implements GeoEntity {
     private int attackCooldown;
     /** Anti-spam : ticks restants avant de pouvoir réarmer un saut. */
     private int jumpCooldown;
+    /**
+     * Mode « leurre » (Phase 2) : l'entité est <b>immobile</b> et inoffensive — elle ne traque ni ne
+     * frappe. Sert au flash de silhouette (étape 3) et à la révélation « LOOK BEHIND YOU » avant la
+     * traque réelle. Implémenté via {@code setNoAi(true)} (le goal ne tourne pas) + garde dans {@code tick()}.
+     */
+    private boolean decoy;
 
     public StalkerEntity(EntityType<? extends PathfinderMob> type, Level level) {
         super(type, level);
@@ -138,6 +144,22 @@ public class StalkerEntity extends PathfinderMob implements GeoEntity {
 
     public UUID getTargetUuid() {
         return targetUuid;
+    }
+
+    // --- Mode leurre (immobile, inoffensif) ---
+
+    public boolean isDecoy() {
+        return decoy;
+    }
+
+    /**
+     * Bascule le mode leurre. En leurre : {@code NoAi} (le {@code StalkerChaseGoal} ne tourne pas, donc
+     * aucun déplacement) et aucune attaque (cf. {@code tick()}). On le pose au sol, il reste planté à
+     * regarder où on l'a tourné. Sortir du mode leurre lui rend sa traque normale.
+     */
+    public void setDecoy(boolean decoy) {
+        this.decoy = decoy;
+        this.setNoAi(decoy);
     }
 
     /** Résout la cible si elle est en ligne et dans la même dimension que l'entité, sinon {@code null}. */
@@ -220,6 +242,11 @@ public class StalkerEntity extends PathfinderMob implements GeoEntity {
         Vec3 dm = this.getDeltaMovement();
         if (dm.y > 0.85) {
             this.setDeltaMovement(dm.x, 0.85, dm.z);
+        }
+
+        // Un leurre ne frappe jamais : il n'est là que pour être vu/visé (silhouette, « LOOK BEHIND YOU »).
+        if (this.decoy) {
+            return;
         }
 
         ServerPlayer target = resolveTarget();

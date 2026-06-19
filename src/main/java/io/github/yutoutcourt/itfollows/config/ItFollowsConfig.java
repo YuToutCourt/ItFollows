@@ -81,8 +81,12 @@ public class ItFollowsConfig {
     public int nauseaWaveOffMaxTicks = 1000;
 
     // --- Phase 2 : entité traqueuse (Stalker) ---
-    /** Délai de grâce (ticks) après l'arrivée du premier joueur avant la première traque. 18000 = ~15 min. */
-    public int graceTicks = 18000;
+    /**
+     * Délai de grâce (ticks) après l'arrivée du premier joueur avant la <b>sélection</b> de la cible
+     * (le plus fatigué). 12000 = ~10 min. Passé ce délai, l'escalade des avertissements démarre
+     * (cf. {@code HauntPhaseController}), pas la traque active directement.
+     */
+    public int graceTicks = 12000;
     /** Vitesse de déplacement de l'entité (attribut MOVEMENT_SPEED). Volontairement lente. */
     public float stalkerSpeed = 0.2f;
     /** Dégâts infligés à la cible au contact (attribut ATTACK_DAMAGE). */
@@ -177,6 +181,58 @@ public class ItFollowsConfig {
      * plutôt que sa position actuelle. 0 = vise la position actuelle. Trop haut = incohérent.
      */
     public int stalkerLeadTicks = 6;
+
+    // --- Phase 2b : escalade de la traque (avertissement progressif) ---
+    // Une fois la cible choisie (fin de grâce), on ne traque pas tout de suite : on enchaîne trois
+    // étapes d'avertissement (bruits → portes/blocs → silhouette) puis la révélation « LOOK BEHIND YOU »,
+    // pilotées par HauntPhaseController. Les durées d'étapes totalisent ~10 min par défaut.
+    /** Durée (ticks) de l'étape 1 « bruits lointains ». 4000 = ~3 min 20. */
+    public int hauntDistantStageTicks = 4000;
+    /** Durée (ticks) de l'étape 2 « portes/blocs cassés à proximité ». 4000 = ~3 min 20. */
+    public int hauntPhysicalStageTicks = 4000;
+    /** Durée (ticks) de l'étape 3 « silhouette aperçue ». 4000 = ~3 min 20. */
+    public int hauntSilhouetteStageTicks = 4000;
+
+    /** Intervalle minimum (ticks) entre deux bruits lointains (étape 1). 800 = 40 s. */
+    public int hauntDistantSoundMinIntervalTicks = 800;
+    /** Intervalle maximum (ticks) entre deux bruits lointains (étape 1). 1200 = 60 s. */
+    public int hauntDistantSoundMaxIntervalTicks = 1200;
+    /** Distance min (blocs) à laquelle le bruit lointain est spatialisé autour de la cible. */
+    public float hauntDistantSoundMinDistance = 10.0f;
+    /** Distance max (blocs) à laquelle le bruit lointain est spatialisé autour de la cible. */
+    public float hauntDistantSoundMaxDistance = 22.0f;
+    /** Volume du bruit lointain (0-1). Bas pour rester « au loin ». */
+    public float hauntDistantSoundVolume = 0.6f;
+
+    /** Intervalle minimum (ticks) entre deux événements physiques (étape 2). 200 = 10 s. */
+    public int hauntPhysicalEventMinIntervalTicks = 200;
+    /** Intervalle maximum (ticks) entre deux événements physiques (étape 2). 500 = 25 s. */
+    public int hauntPhysicalEventMaxIntervalTicks = 500;
+    /** Rayon (blocs) autour de la cible où l'on ouvre une porte / casse un bloc réel (étape 2). */
+    public int hauntPhysicalEventRadius = 10;
+
+    /** Intervalle minimum (ticks) entre deux flashs de silhouette (étape 3). 300 = 15 s. */
+    public int hauntSilhouetteMinIntervalTicks = 300;
+    /** Intervalle maximum (ticks) entre deux flashs de silhouette (étape 3). 700 = 35 s. */
+    public int hauntSilhouetteMaxIntervalTicks = 700;
+    /** Durée (ticks) d'un flash de silhouette avant retrait. 20 = 1 s. */
+    public int hauntSilhouetteDurationTicks = 20;
+    /** Distance min (blocs) à laquelle la silhouette apparaît dans le champ de vision de la cible. */
+    public float hauntSilhouetteMinDistance = 16.0f;
+    /** Distance max (blocs) à laquelle la silhouette apparaît dans le champ de vision de la cible. */
+    public float hauntSilhouetteMaxDistance = 28.0f;
+    /** Demi-angle (degrés) du cône frontal où la silhouette peut apparaître (peripheral vision). */
+    public float hauntSilhouetteConeDegrees = 50.0f;
+
+    // --- Phase 2c : révélation « LOOK BEHIND YOU » ---
+    /** Distance (blocs) derrière la cible où le leurre immobile apparaît à la révélation. */
+    public float revealDistance = 5.0f;
+    /** Portée (blocs) du raycast de regard pour détecter que la cible vise le leurre. */
+    public float revealLookDetectRange = 12.0f;
+    /** Ticks consécutifs de regard sur le leurre avant de déclencher la traque (anti faux positif). 3 = 0,15 s. */
+    public int revealLookHoldTicks = 3;
+    /** Volume de la voix « LOOK BEHIND YOU » (0-1). */
+    public float lookBehindVolume = 1.0f;
 
     public static ItFollowsConfig get() {
         if (instance == null) {

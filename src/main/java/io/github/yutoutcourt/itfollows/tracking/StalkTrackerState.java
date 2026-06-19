@@ -26,6 +26,8 @@ public class StalkTrackerState extends SavedData {
     private UUID targetPlayer;
     private UUID stalkerEntityId;
     private int phase;
+    /** Heure-monde ({@code getGameTime}) à laquelle la phase courante a commencé : base du minutage de l'escalade. */
+    private long phaseStartTime;
     /** Dernière cible morte sous la traque : exclue de la prochaine sélection (anti « maudit à vie »). */
     private UUID lastVictim;
 
@@ -70,6 +72,25 @@ public class StalkTrackerState extends SavedData {
 
     public void setPhase(int phase) {
         this.phase = phase;
+        setDirty();
+    }
+
+    /** Phase de traque courante (typée). Ordinal stocké dans {@link #phase}. */
+    public HauntPhase getHauntPhase() {
+        return HauntPhase.fromOrdinal(phase);
+    }
+
+    public void setHauntPhase(HauntPhase hauntPhase) {
+        this.phase = hauntPhase.ordinal();
+        setDirty();
+    }
+
+    public long getPhaseStartTime() {
+        return phaseStartTime;
+    }
+
+    public void setPhaseStartTime(long phaseStartTime) {
+        this.phaseStartTime = phaseStartTime;
         setDirty();
     }
 
@@ -119,6 +140,7 @@ public class StalkTrackerState extends SavedData {
                     new ResourceLocation(tag.getString("virtualDim")));
         }
         state.phase = tag.getInt("phase");
+        state.phaseStartTime = tag.getLong("phaseStart");
         return state;
     }
 
@@ -140,6 +162,7 @@ public class StalkTrackerState extends SavedData {
             tag.putString("virtualDim", virtualDim.location().toString());
         }
         tag.putInt("phase", phase);
+        tag.putLong("phaseStart", phaseStartTime);
         return tag;
     }
 }

@@ -43,10 +43,31 @@ public final class HauntController {
             graceStartTick = server.getTickCount();
         }
 
-        // Laisse vérifiée chaque tick (et non par échantillon) : aux vitesses élevées (élytres,
-        // cheval, /tp) la cible peut sortir de la zone de simulation entre deux échantillons. On
+        StalkTrackerState state = StalkTrackerState.get(server);
+        HauntPhase phase = state.getHauntPhase();
+
+        // Traque active : le leash est vérifié chaque tick (et non par échantillon). Aux vitesses élevées
+        // (élytres, cheval, /tp) la cible peut sortir de la zone de simulation entre deux échantillons ; on
         // dématérialise dès le dépassement, en sauvant la position, pour ne jamais geler l'entité.
-        leashCheck(server, config);
+        if (phase == HauntPhase.HUNTING) {
+            leashCheck(server, config);
+        }
+
+        // Escalade & révélation : pilotées chaque tick (pour que la détection du regard sur le leurre, à la
+        // révélation, soit réactive). HauntPhaseController planifie ses propres événements par l'heure-monde.
+        if (phase.isEscalation()) {
+            ServerPlayer target = resolveTargetPlayer(server, state);
+            if (target == null) {
+                // Cible déconnectée / passée en créatif pendant l'escalade : on annule proprement (leurre
+                // retiré) et on repart de zéro ; l'échantillon suivant resélectionnera une cible.
+                despawn(server);
+                state.setTargetPlayer(null);
+                beginPhase(server, state, HauntPhase.NONE);
+                return;
+            }
+            HauntPhaseController.tick(server, state, target, config);
+            return;
+        }
 
         if (++tickCounter < config.hauntSampleIntervalTicks) {
             return;
@@ -81,12 +102,26 @@ public final class HauntController {
             }
             state.setTargetPlayer(chosen.getUUID());
             target = chosen;
+            // Cible fraîchement choisie : en mode normal on démarre l'escalade des avertissements (étape 1),
+            // qui se terminera par la révélation puis la traque. Forcé (debug) : on traque directement.
+            beginPhase(server, state, forced ? HauntPhase.HUNTING : HauntPhase.WARNING_DISTANT);
+            if (!forced) {
+                // L'escalade prend la main dès le prochain tick (branche phase.isEscalation() de tick()).
+                return;
+            }
+        }
+
+        // Sécurité : une cible existe mais on n'est ni en escalade ni en traque (état incohérent après un
+        // chargement legacy) → on (re)lance l'escalade plutôt que de traquer sans avertissement.
+        if (state.getHauntPhase() != HauntPhase.HUNTING) {
+            beginPhase(server, state, HauntPhase.WARNING_DISTANT);
+            return;
         }
 
         ensureVirtualSeeded(server, state, target, config);
 
         StalkerEntity entity = resolveEntity(server, state);
-        if (entity != null && !entity.isRemoved()) {
+        if (entity != null && !entity.isRemoved() && !entity.isDecoy()) {
             // Déjà matérialisée : la dématérialisation est gérée chaque tick par leashCheck ; ici on
             // se contente d'entretenir le suivi (cible courante + position logique tenue à jour).
             entity.setTargetUuid(target.getUUID());
@@ -96,6 +131,16 @@ public final class HauntController {
 
         // Pas matérialisée : la poursuite virtuelle avance, et se matérialise si elle est assez proche.
         simulateAndMaybeMaterialize(server, state, target, config);
+    }
+
+    /**
+     * Bascule la phase de traque et horodate son début (heure-monde, robuste aux déco/reco/redémarrages).
+     * Réinitialise les minuteurs de session de {@link HauntPhaseController} pour repartir proprement.
+     */
+    static void beginPhase(MinecraftServer server, StalkTrackerState state, HauntPhase phase) {
+        state.setHauntPhase(phase);
+        state.setPhaseStartTime(server.overworld().getGameTime());
+        HauntPhaseController.resetTimers();
     }
 
     /**
@@ -117,22 +162,67 @@ public final class HauntController {
         double vertical = Math.abs(to.y - next.y);
         double effective = horizontal + config.stalkerVerticalPenalty * vertical;
         if (effective <= materializeDistance(server, config)) {
-            materialize(server, state, target, next, config);
+            spawn(server, state, target, next, false, config);
         }
     }
 
     // --- API debug (commande) ---
 
-    /** Force la cible (ignore la grâce) et fait apparaître l'entité immédiatement près d'elle. */
+    /** Force la cible (ignore la grâce, saute l'escalade) et fait apparaître l'entité traqueuse tout de suite. */
     public static void forceTarget(MinecraftServer server, ServerPlayer target) {
         forced = true;
         ItFollowsConfig config = ItFollowsConfig.get();
         StalkTrackerState state = StalkTrackerState.get(server);
         state.setTargetPlayer(target.getUUID());
+        beginPhase(server, state, HauntPhase.HUNTING);
         // Amorce la position logique derrière la cible puis matérialise tout de suite (debug).
         Vec3 behind = behindTarget(target, materializeDistance(server, config));
         state.setVirtual(behind, target.level().dimension());
-        materialize(server, state, target, behind, config);
+        spawn(server, state, target, behind, false, config);
+    }
+
+    /**
+     * Démarre l'escalade des avertissements sur {@code target} dès maintenant (debug : ignore la grâce et
+     * la sélection par fatigue). Enchaîne ensuite étapes → révélation → traque comme en jeu normal.
+     */
+    public static void forceEscalation(MinecraftServer server, ServerPlayer target) {
+        forced = true;
+        StalkTrackerState state = StalkTrackerState.get(server);
+        despawn(server);
+        state.clearVirtual();
+        state.setTargetPlayer(target.getUUID());
+        beginPhase(server, state, HauntPhase.WARNING_DISTANT);
+    }
+
+    /**
+     * Saute directement à une phase donnée sur la cible courante (ou {@code target} si fournie) — outil
+     * de test pour ne pas attendre 20 min. {@code NONE} remet la traque à zéro ; {@code HUNTING} matérialise
+     * la traque ; les phases d'escalade laissent {@link HauntPhaseController} reprendre au prochain tick.
+     */
+    public static boolean forcePhase(MinecraftServer server, ServerPlayer target, HauntPhase phase) {
+        forced = true;
+        ItFollowsConfig config = ItFollowsConfig.get();
+        StalkTrackerState state = StalkTrackerState.get(server);
+        if (target != null) {
+            state.setTargetPlayer(target.getUUID());
+        }
+        ServerPlayer resolved = resolveTargetPlayer(server, state);
+        if (resolved == null) {
+            return false;
+        }
+        despawn(server);
+        if (phase == HauntPhase.NONE) {
+            state.setTargetPlayer(null);
+            state.clearVirtual();
+            forced = false;
+        }
+        beginPhase(server, state, phase);
+        if (phase == HauntPhase.HUNTING) {
+            Vec3 behind = behindTarget(resolved, materializeDistance(server, config));
+            state.setVirtual(behind, resolved.level().dimension());
+            spawn(server, state, resolved, behind, false, config);
+        }
+        return true;
     }
 
     /**
@@ -157,6 +247,8 @@ public final class HauntController {
         // La traque forcée (debug) s'arrête à la mort de la cible imposée.
         forced = false;
         despawn(server);
+        // Prochaine cible : on repasse par l'escalade complète (phase remise à zéro).
+        beginPhase(server, state, HauntPhase.NONE);
     }
 
     /** Retire l'entité courante et met la traque en pause (cible effacée, grâce non forcée). */
@@ -174,6 +266,7 @@ public final class HauntController {
         state.setStalkerEntityId(null);
         state.setTargetPlayer(null);
         state.clearVirtual();
+        beginPhase(server, state, HauntPhase.NONE);
     }
 
     public static boolean isForced() {
@@ -283,10 +376,14 @@ public final class HauntController {
         return null;
     }
 
-    /** Point d'amorçage de la poursuite : derrière la cible, à la distance d'apparition (≈ moitié du rendu). */
-    private static Vec3 behindTarget(ServerPlayer target, double distance) {
+    /** Point derrière la cible (opposé de son regard, horizontal) à {@code distance} blocs. */
+    static Vec3 behindTarget(ServerPlayer target, double distance) {
         Vec3 look = target.getLookAngle();
-        return new Vec3(target.getX() - look.x * distance, target.getY(), target.getZ() - look.z * distance);
+        double horiz = Math.hypot(look.x, look.z);
+        // Direction de regard projetée à l'horizontale (évite que regarder le ciel/sol écrase le décalage).
+        double lx = horiz > 1.0e-4 ? look.x / horiz : -Math.sin(Math.toRadians(target.getYRot()));
+        double lz = horiz > 1.0e-4 ? look.z / horiz : Math.cos(Math.toRadians(target.getYRot()));
+        return new Vec3(target.getX() - lx * distance, target.getY(), target.getZ() - lz * distance);
     }
 
     /**
@@ -302,32 +399,58 @@ public final class HauntController {
     }
 
     /**
-     * Matérialise l'entité réelle à la position logique {@code at}, en résolvant un Y de sol valable
+     * (Ré)apparaît l'entité (unique) à la position logique {@code at}, en résolvant un Y de sol valable
      * autour de l'altitude de la cible (le Y logique n'est jamais utilisé tel quel — cf. discussion axe Y).
+     * {@code decoy} = {@code true} : leurre immobile (silhouette / révélation), tourné vers la cible ;
+     * {@code false} : entité traqueuse réelle. Renvoie l'entité créée, ou {@code null} si l'échec.
      */
-    private static void materialize(MinecraftServer server, StalkTrackerState state, ServerPlayer target,
-                                    Vec3 at, ItFollowsConfig config) {
+    static StalkerEntity spawn(MinecraftServer server, StalkTrackerState state, ServerPlayer target,
+                               Vec3 at, boolean decoy, ItFollowsConfig config) {
         // Garantit l'unicité : on retire toute entité résiduelle avant d'en créer une.
         discardAllStalkers(server);
 
         ServerLevel level = (ServerLevel) target.level();
         StalkerEntity stalker = ModEntities.STALKER.create(level);
         if (stalker == null) {
-            return;
+            return null;
         }
 
         int bx = Mth.floor(at.x);
         int bz = Mth.floor(at.z);
         double y = resolveSpawnY(level, bx, bz, target.blockPosition().getY(), config);
 
-        stalker.moveTo(at.x, y, at.z, target.getYRot(), 0.0f);
+        // Un leurre fixe regarde la cible (l'effet « il est planté là à te fixer ») ; la traqueuse, elle,
+        // s'oriente comme la cible (le rendu se cale ensuite via la nav).
+        float yaw = decoy ? yawToward(at.x, at.z, target.getX(), target.getZ()) : target.getYRot();
+        stalker.moveTo(at.x, y, at.z, yaw, 0.0f);
         stalker.setTargetUuid(target.getUUID());
         stalker.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(config.stalkerSpeed);
         stalker.getAttribute(Attributes.ATTACK_DAMAGE).setBaseValue(config.stalkerAttackDamage);
+        stalker.setDecoy(decoy);
 
         level.addFreshEntity(stalker);
         state.setStalkerEntityId(stalker.getUUID());
         state.setVirtual(stalker.position(), level.dimension());
+        return stalker;
+    }
+
+    /**
+     * Révélation accomplie : (re)fait apparaître la <b>vraie</b> traqueuse le plus loin possible
+     * derrière la cible — juste en deçà de la frontière de dématérialisation, pour qu'elle ne soit
+     * pas immédiatement larguée par {@link #leashCheck} mais reparte d'une vraie poursuite, et non
+     * « à côté » du leurre. Amorce aussi la position logique. Renvoie l'entité, ou {@code null} si l'échec.
+     */
+    static StalkerEntity spawnFarHunter(MinecraftServer server, StalkTrackerState state,
+                                        ServerPlayer target, ItFollowsConfig config) {
+        double distance = despawnDistance(server, config) - 16.0;
+        Vec3 far = behindTarget(target, distance);
+        state.setVirtual(far, target.level().dimension());
+        return spawn(server, state, target, far, false, config);
+    }
+
+    /** Yaw (degrés, convention Minecraft) pour qu'une entité en {@code (fx,fz)} regarde {@code (tx,tz)}. */
+    private static float yawToward(double fx, double fz, double tx, double tz) {
+        return (float) (Mth.atan2(tz - fz, tx - fx) * (180.0 / Math.PI)) - 90.0f;
     }
 
     /**
@@ -358,7 +481,7 @@ public final class HauntController {
                 && level.getBlockState(head).getCollisionShape(level, head).isEmpty();
     }
 
-    private static void discardAllStalkers(MinecraftServer server) {
+    static void discardAllStalkers(MinecraftServer server) {
         for (ServerLevel level : server.getAllLevels()) {
             for (StalkerEntity stalker : level.getEntities(ModEntities.STALKER, stalker -> true)) {
                 stalker.discard();

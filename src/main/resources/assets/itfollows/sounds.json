@@ -1,0 +1,16 @@
+{
+  "haunt_distant": {
+    "category": "hostile",
+    "subtitle": "subtitles.itfollows.haunt_distant",
+    "sounds": [
+      "itfollows:haunt_distant"
+    ]
+  },
+  "look_behind_you": {
+    "category": "hostile",
+    "subtitle": "subtitles.itfollows.look_behind_you",
+    "sounds": [
+      "itfollows:look_behind_you"
+    ]
+  }
+}

@@ -1,8 +1,8 @@
 {
   "C:\\Users\\wapzi\\Desktop\\Programmation\\Java\\ItFollows\\build.gradle": {
-    "mtime": 1781682960.5903878,
-    "ast_hash": "34114cd4d16f23c22bb3bd0ec63df18a",
-    "semantic_hash": "34114cd4d16f23c22bb3bd0ec63df18a"
+    "mtime": 1781855077.4416964,
+    "ast_hash": "f4f7a5c0d3d4390cec57e682a5c86a24",
+    "semantic_hash": "f4f7a5c0d3d4390cec57e682a5c86a24"
   },
   "C:\\Users\\wapzi\\Desktop\\Programmation\\Java\\ItFollows\\settings.gradle": {
     "mtime": 1781682953.6254985,
@@ -10,14 +10,14 @@
     "semantic_hash": "ffa15cb4be1126b32eb6c523be3a440b"
   },
   "C:\\Users\\wapzi\\Desktop\\Programmation\\Java\\ItFollows\\src\\client\\java\\io\\github\\yutoutcourt\\itfollows\\client\\ClientFatigueState.java": {
-    "mtime": 1781684662.006557,
-    "ast_hash": "f2843619bda03377916b5addd2756653",
-    "semantic_hash": "f2843619bda03377916b5addd2756653"
+    "mtime": 1781691918.6667645,
+    "ast_hash": "8b7ce8b76e618dd862e8045fe6dfbb2c",
+    "semantic_hash": "8b7ce8b76e618dd862e8045fe6dfbb2c"
   },
   "C:\\Users\\wapzi\\Desktop\\Programmation\\Java\\ItFollows\\src\\client\\java\\io\\github\\yutoutcourt\\itfollows\\client\\ItfollowsClient.java": {
-    "mtime": 1781684687.7729053,
-    "ast_hash": "595846ed893512209c7db8f2062835a1",
-    "semantic_hash": "595846ed893512209c7db8f2062835a1"
+    "mtime": 1781855230.514274,
+    "ast_hash": "263e6078d850d7a2ab295d0cb48bd6d8",
+    "semantic_hash": "263e6078d850d7a2ab295d0cb48bd6d8"
   },
   "C:\\Users\\wapzi\\Desktop\\Programmation\\Java\\ItFollows\\src\\client\\java\\io\\github\\yutoutcourt\\itfollows\\client\\ItfollowsDataGenerator.java": {
     "mtime": 1781682953.7392125,
@@ -25,9 +25,9 @@
     "semantic_hash": "b474af2e69b18b6c143dbeeea7148e77"
   },
   "C:\\Users\\wapzi\\Desktop\\Programmation\\Java\\ItFollows\\src\\client\\java\\io\\github\\yutoutcourt\\itfollows\\client\\hud\\FatigueHudOverlay.java": {
-    "mtime": 1781687967.894078,
-    "ast_hash": "780f3d47bf9533c9e2fe6aa36314c310",
-    "semantic_hash": "780f3d47bf9533c9e2fe6aa36314c310"
+    "mtime": 1781691935.7732353,
+    "ast_hash": "7672a38b40fb3ef7760adefc883b53cf",
+    "semantic_hash": "7672a38b40fb3ef7760adefc883b53cf"
   },
   "C:\\Users\\wapzi\\Desktop\\Programmation\\Java\\ItFollows\\src\\client\\resources\\itfollows.client.mixins.json": {
     "mtime": 1781682953.696138,
@@ -35,9 +35,9 @@
     "semantic_hash": "c8938b13c3b56fa22b2ac5f11f05feb7"
   },
   "C:\\Users\\wapzi\\Desktop\\Programmation\\Java\\ItFollows\\src\\main\\java\\io\\github\\yutoutcourt\\itfollows\\Itfollows.java": {
-    "mtime": 1781688468.9859438,
-    "ast_hash": "b80a7e52dcaca77132a4833db0239048",
-    "semantic_hash": "b80a7e52dcaca77132a4833db0239048"
+    "mtime": 1781706657.5941515,
+    "ast_hash": "bd61634e45ac285fbe420218c8fd04bb",
+    "semantic_hash": "bd61634e45ac285fbe420218c8fd04bb"
   },
   "C:\\Users\\wapzi\\Desktop\\Programmation\\Java\\ItFollows\\src\\main\\java\\io\\github\\yutoutcourt\\itfollows\\TestEvents.java": {
     "mtime": 1781690293.031232,
@@ -45,24 +45,24 @@
     "semantic_hash": "e4c16f433986af1c8cdc92405f1bf85b"
   },
   "C:\\Users\\wapzi\\Desktop\\Programmation\\Java\\ItFollows\\src\\main\\java\\io\\github\\yutoutcourt\\itfollows\\command\\ItFollowsCommand.java": {
-    "mtime": 1781684601.0248675,
-    "ast_hash": "994c57746bdaf7c9175a77316f59ead8",
-    "semantic_hash": "994c57746bdaf7c9175a77316f59ead8"
+    "mtime": 1781711578.0735812,
+    "ast_hash": "f1ff933238cb246f2780fed008f3953a",
+    "semantic_hash": "f1ff933238cb246f2780fed008f3953a"
   },
   "C:\\Users\\wapzi\\Desktop\\Programmation\\Java\\ItFollows\\src\\main\\java\\io\\github\\yutoutcourt\\itfollows\\config\\ItFollowsConfig.java": {
-    "mtime": 1781688405.3169925,
-    "ast_hash": "e13659aaa7ae3886afbc05a7313e185c",
-    "semantic_hash": "e13659aaa7ae3886afbc05a7313e185c"
+    "mtime": 1781872250.0727544,
+    "ast_hash": "c2478bab9703cb5515e7a9a6d9b9b64c",
+    "semantic_hash": "c2478bab9703cb5515e7a9a6d9b9b64c"
   },
   "C:\\Users\\wapzi\\Desktop\\Programmation\\Java\\ItFollows\\src\\main\\java\\io\\github\\yutoutcourt\\itfollows\\fatigue\\FatigueEffects.java": {
-    "mtime": 1781684506.7701054,
-    "ast_hash": "47aa5d6341191af02d821ec2bd5e8b33",
-    "semantic_hash": "47aa5d6341191af02d821ec2bd5e8b33"
+    "mtime": 1781699759.9000933,
+    "ast_hash": "f82da7a4fffc3c2a116febf85717f795",
+    "semantic_hash": "f82da7a4fffc3c2a116febf85717f795"
   },
   "C:\\Users\\wapzi\\Desktop\\Programmation\\Java\\ItFollows\\src\\main\\java\\io\\github\\yutoutcourt\\itfollows\\fatigue\\FatigueManager.java": {
-    "mtime": 1781688457.307205,
-    "ast_hash": "6e34c10545ebefd1cea81cb9ecac6fe3",
-    "semantic_hash": "6e34c10545ebefd1cea81cb9ecac6fe3"
+    "mtime": 1781706575.344944,
+    "ast_hash": "b5d8cbcd426ba8fb8d451e658687da84",
+    "semantic_hash": "b5d8cbcd426ba8fb8d451e658687da84"
   },
   "C:\\Users\\wapzi\\Desktop\\Programmation\\Java\\ItFollows\\src\\main\\java\\io\\github\\yutoutcourt\\itfollows\\fatigue\\FatigueRules.java": {
     "mtime": 1781684485.2574468,
@@ -70,9 +70,9 @@
     "semantic_hash": "8f0bc9ed208732273123634ca26d6cb6"
   },
   "C:\\Users\\wapzi\\Desktop\\Programmation\\Java\\ItFollows\\src\\main\\java\\io\\github\\yutoutcourt\\itfollows\\fatigue\\FatigueState.java": {
-    "mtime": 1781684497.0840018,
-    "ast_hash": "0dcf8c3bfaedb701f50c7641b5064d70",
-    "semantic_hash": "0dcf8c3bfaedb701f50c7641b5064d70"
+    "mtime": 1781706328.0370848,
+    "ast_hash": "2ced0e1f17e9924d87c271b7a7b2a03c",
+    "semantic_hash": "2ced0e1f17e9924d87c271b7a7b2a03c"
   },
   "C:\\Users\\wapzi\\Desktop\\Programmation\\Java\\ItFollows\\src\\main\\java\\io\\github\\yutoutcourt\\itfollows\\fatigue\\FatigueTier.java": {
     "mtime": 1781684473.5309236,
@@ -95,9 +95,9 @@
     "semantic_hash": "41b679fca6ec7f63681ebf043ad1f0c1"
   },
   "C:\\Users\\wapzi\\Desktop\\Programmation\\Java\\ItFollows\\src\\main\\java\\io\\github\\yutoutcourt\\itfollows\\net\\ItFollowsNetworking.java": {
-    "mtime": 1781684457.1189518,
-    "ast_hash": "4b21fada74d5524104d0ca1ebfae160f",
-    "semantic_hash": "4b21fada74d5524104d0ca1ebfae160f"
+    "mtime": 1781691809.6534586,
+    "ast_hash": "635630d593d3922444f318a48ed97dbc",
+    "semantic_hash": "635630d593d3922444f318a48ed97dbc"
   },
   "C:\\Users\\wapzi\\Desktop\\Programmation\\Java\\ItFollows\\src\\main\\java\\io\\github\\yutoutcourt\\itfollows\\sieste\\NapStarter.java": {
     "mtime": 1781689355.614785,
@@ -110,14 +110,14 @@
     "semantic_hash": "5100d920dd84ef924264846fd316f5d9"
   },
   "C:\\Users\\wapzi\\Desktop\\Programmation\\Java\\ItFollows\\src\\main\\resources\\fabric.mod.json": {
-    "mtime": 1781682960.711191,
-    "ast_hash": "1480456de99684129fb93eae4a20ae5e",
-    "semantic_hash": "1480456de99684129fb93eae4a20ae5e"
+    "mtime": 1781855106.266382,
+    "ast_hash": "18e27e968cf194a52c4ca3b834de32ec",
+    "semantic_hash": "18e27e968cf194a52c4ca3b834de32ec"
   },
   "C:\\Users\\wapzi\\Desktop\\Programmation\\Java\\ItFollows\\src\\main\\resources\\itfollows.mixins.json": {
-    "mtime": 1781689369.6853375,
-    "ast_hash": "17bead07c9f33b77da40fbe2bc8a4e4d",
-    "semantic_hash": "17bead07c9f33b77da40fbe2bc8a4e4d"
+    "mtime": 1781702520.0492604,
+    "ast_hash": "6b97cfcdfd4e7f11c6762ac06169bf94",
+    "semantic_hash": "6b97cfcdfd4e7f11c6762ac06169bf94"
   },
   "C:\\Users\\wapzi\\Desktop\\Programmation\\Java\\ItFollows\\LICENSE.txt": {
     "mtime": 1781682953.745728,
@@ -128,5 +128,380 @@
     "mtime": 1781687137.2686543,
     "ast_hash": "5a10075a734bef4be0ee6f6ec18862d5",
     "semantic_hash": "5a10075a734bef4be0ee6f6ec18862d5"
+  },
+  "C:\\Users\\wapzi\\Desktop\\Programmation\\Java\\ItFollows\\.claude\\settings.local.json": {
+    "mtime": 1781855124.4708738,
+    "ast_hash": "347dad2ab6051e5d06f43fab2eeb18d1",
+    "semantic_hash": "347dad2ab6051e5d06f43fab2eeb18d1"
+  },
+  "C:\\Users\\wapzi\\Desktop\\Programmation\\Java\\ItFollows\\.vscode\\mcp.json": {
+    "mtime": 1781853122.3916664,
+    "ast_hash": "1e92e1ebdd6c003b66d303396003cef9",
+    "semantic_hash": "1e92e1ebdd6c003b66d303396003cef9"
+  },
+  "C:\\Users\\wapzi\\Desktop\\Programmation\\Java\\ItFollows\\NightmareESM_1_20_4.jar.src\\ESM\\Base\\GeneralEntity.java": {
+    "mtime": 1781862560.0,
+    "ast_hash": "7dc1a21d3f163dfb25515a73b7e73f9c",
+    "semantic_hash": "7dc1a21d3f163dfb25515a73b7e73f9c"
+  },
+  "C:\\Users\\wapzi\\Desktop\\Programmation\\Java\\ItFollows\\NightmareESM_1_20_4.jar.src\\ESM\\Base\\NightmareCreeper.java": {
+    "mtime": 1781862560.0,
+    "ast_hash": "65510edd890d7e22cf98a1db23c3f844",
+    "semantic_hash": "65510edd890d7e22cf98a1db23c3f844"
+  },
+  "C:\\Users\\wapzi\\Desktop\\Programmation\\Java\\ItFollows\\NightmareESM_1_20_4.jar.src\\ESM\\Base\\NightmareSkeleton.java": {
+    "mtime": 1781862560.0,
+    "ast_hash": "6ea5cd0d9772d4c8dd5f9172ee26c10b",
+    "semantic_hash": "6ea5cd0d9772d4c8dd5f9172ee26c10b"
+  },
+  "C:\\Users\\wapzi\\Desktop\\Programmation\\Java\\ItFollows\\NightmareESM_1_20_4.jar.src\\ESM\\Base\\NightmareSpider.java": {
+    "mtime": 1781862560.0,
+    "ast_hash": "74ab734013c33a5d930f8183fe811dca",
+    "semantic_hash": "74ab734013c33a5d930f8183fe811dca"
+  },
+  "C:\\Users\\wapzi\\Desktop\\Programmation\\Java\\ItFollows\\NightmareESM_1_20_4.jar.src\\ESM\\Base\\NightmareZombie.java": {
+    "mtime": 1781862560.0,
+    "ast_hash": "0157bac1f9a2a456f029cac9a66964ea",
+    "semantic_hash": "0157bac1f9a2a456f029cac9a66964ea"
+  },
+  "C:\\Users\\wapzi\\Desktop\\Programmation\\Java\\ItFollows\\NightmareESM_1_20_4.jar.src\\ESM\\Base\\SuperSkeleton.java": {
+    "mtime": 1781862560.0,
+    "ast_hash": "50b271597aec8981679b4b0054073efa",
+    "semantic_hash": "50b271597aec8981679b4b0054073efa"
+  },
+  "C:\\Users\\wapzi\\Desktop\\Programmation\\Java\\ItFollows\\NightmareESM_1_20_4.jar.src\\ESM\\BlockInfo.java": {
+    "mtime": 1781862560.0,
+    "ast_hash": "c5eb5e568c19fb35df1f78954686222b",
+    "semantic_hash": "c5eb5e568c19fb35df1f78954686222b"
+  },
+  "C:\\Users\\wapzi\\Desktop\\Programmation\\Java\\ItFollows\\NightmareESM_1_20_4.jar.src\\ESM\\CannotReachPlayer.java": {
+    "mtime": 1781862560.0,
+    "ast_hash": "65faabe0648084b50f5622290f46465f",
+    "semantic_hash": "65faabe0648084b50f5622290f46465f"
+  },
+  "C:\\Users\\wapzi\\Desktop\\Programmation\\Java\\ItFollows\\NightmareESM_1_20_4.jar.src\\ESM\\Clocker.java": {
+    "mtime": 1781862560.0,
+    "ast_hash": "04bf8a35f0689ca63a5974c12343b549",
+    "semantic_hash": "04bf8a35f0689ca63a5974c12343b549"
+  },
+  "C:\\Users\\wapzi\\Desktop\\Programmation\\Java\\ItFollows\\NightmareESM_1_20_4.jar.src\\ESM\\DuplicateMob.java": {
+    "mtime": 1781862560.0,
+    "ast_hash": "62505cd322045a97e447dbc65c2e0ed0",
+    "semantic_hash": "62505cd322045a97e447dbc65c2e0ed0"
+  },
+  "C:\\Users\\wapzi\\Desktop\\Programmation\\Java\\ItFollows\\NightmareESM_1_20_4.jar.src\\ESM\\ESMConfig.java": {
+    "mtime": 1781862560.0,
+    "ast_hash": "53a392e3402309914c0f57bb225affe7",
+    "semantic_hash": "53a392e3402309914c0f57bb225affe7"
+  },
+  "C:\\Users\\wapzi\\Desktop\\Programmation\\Java\\ItFollows\\NightmareESM_1_20_4.jar.src\\ESM\\GetBlockingBlock.java": {
+    "mtime": 1781862560.0,
+    "ast_hash": "e2e53542b42e3723ced34e9b22e7b3b6",
+    "semantic_hash": "e2e53542b42e3723ced34e9b22e7b3b6"
+  },
+  "C:\\Users\\wapzi\\Desktop\\Programmation\\Java\\ItFollows\\NightmareESM_1_20_4.jar.src\\ESM\\GetNearestTarget.java": {
+    "mtime": 1781862560.0,
+    "ast_hash": "503e7b1bd18b075e457c05e6ada1ff67",
+    "semantic_hash": "503e7b1bd18b075e457c05e6ada1ff67"
+  },
+  "C:\\Users\\wapzi\\Desktop\\Programmation\\Java\\ItFollows\\NightmareESM_1_20_4.jar.src\\ESM\\GiveRandomArmor.java": {
+    "mtime": 1781862560.0,
+    "ast_hash": "cca833ae64b058bf9ccfeac617b24bc6",
+    "semantic_hash": "cca833ae64b058bf9ccfeac617b24bc6"
+  },
+  "C:\\Users\\wapzi\\Desktop\\Programmation\\Java\\ItFollows\\NightmareESM_1_20_4.jar.src\\ESM\\GiveRandomPickaxe.java": {
+    "mtime": 1781862560.0,
+    "ast_hash": "e4f0364b244d305d4aaf32ef87f154f3",
+    "semantic_hash": "e4f0364b244d305d4aaf32ef87f154f3"
+  },
+  "C:\\Users\\wapzi\\Desktop\\Programmation\\Java\\ItFollows\\NightmareESM_1_20_4.jar.src\\ESM\\MobBehavs\\CreeperBreachWalls.java": {
+    "mtime": 1781862560.0,
+    "ast_hash": "048ebe875dc2288db6bb900ac04b67d9",
+    "semantic_hash": "048ebe875dc2288db6bb900ac04b67d9"
+  },
+  "C:\\Users\\wapzi\\Desktop\\Programmation\\Java\\ItFollows\\NightmareESM_1_20_4.jar.src\\ESM\\MobBehavs\\CreeperExplode.java": {
+    "mtime": 1781862560.0,
+    "ast_hash": "56190634f34cff907c8bf02db45427fd",
+    "semantic_hash": "56190634f34cff907c8bf02db45427fd"
+  },
+  "C:\\Users\\wapzi\\Desktop\\Programmation\\Java\\ItFollows\\NightmareESM_1_20_4.jar.src\\ESM\\MobBehavs\\ItemChecker.java": {
+    "mtime": 1781862560.0,
+    "ast_hash": "34f792e11322d4cad48400f7f4aa6bd0",
+    "semantic_hash": "34f792e11322d4cad48400f7f4aa6bd0"
+  },
+  "C:\\Users\\wapzi\\Desktop\\Programmation\\Java\\ItFollows\\NightmareESM_1_20_4.jar.src\\ESM\\MobBehavs\\MobBloodlust.java": {
+    "mtime": 1781862560.0,
+    "ast_hash": "36b8558d0cc1405b84f047d510230444",
+    "semantic_hash": "36b8558d0cc1405b84f047d510230444"
+  },
+  "C:\\Users\\wapzi\\Desktop\\Programmation\\Java\\ItFollows\\NightmareESM_1_20_4.jar.src\\ESM\\MobBehavs\\MobBuildBridge.java": {
+    "mtime": 1781862560.0,
+    "ast_hash": "6f05aaa2afb7428d777c27b4936df9e6",
+    "semantic_hash": "6f05aaa2afb7428d777c27b4936df9e6"
+  },
+  "C:\\Users\\wapzi\\Desktop\\Programmation\\Java\\ItFollows\\NightmareESM_1_20_4.jar.src\\ESM\\MobBehavs\\MobBuildUp.java": {
+    "mtime": 1781862560.0,
+    "ast_hash": "94f1e7bdb5b5262c28a56d337a2fd991",
+    "semantic_hash": "94f1e7bdb5b5262c28a56d337a2fd991"
+  },
+  "C:\\Users\\wapzi\\Desktop\\Programmation\\Java\\ItFollows\\NightmareESM_1_20_4.jar.src\\ESM\\MobBehavs\\MobDamageBlock.java": {
+    "mtime": 1781862560.0,
+    "ast_hash": "95a7c1ec7559d0ceb489ed4a80335262",
+    "semantic_hash": "95a7c1ec7559d0ceb489ed4a80335262"
+  },
+  "C:\\Users\\wapzi\\Desktop\\Programmation\\Java\\ItFollows\\NightmareESM_1_20_4.jar.src\\ESM\\MobBehavs\\MobDig.java": {
+    "mtime": 1781862560.0,
+    "ast_hash": "9373099231c5efe9214e28ab2685155c",
+    "semantic_hash": "9373099231c5efe9214e28ab2685155c"
+  },
+  "C:\\Users\\wapzi\\Desktop\\Programmation\\Java\\ItFollows\\NightmareESM_1_20_4.jar.src\\ESM\\MobBehavs\\MobDigDown.java": {
+    "mtime": 1781862560.0,
+    "ast_hash": "053631924d0293735ad849ee3e38c363",
+    "semantic_hash": "053631924d0293735ad849ee3e38c363"
+  },
+  "C:\\Users\\wapzi\\Desktop\\Programmation\\Java\\ItFollows\\NightmareESM_1_20_4.jar.src\\ESM\\MobBehavs\\MobDigUp.java": {
+    "mtime": 1781862560.0,
+    "ast_hash": "1894d8091f954330ce0a086b1119f5d4",
+    "semantic_hash": "1894d8091f954330ce0a086b1119f5d4"
+  },
+  "C:\\Users\\wapzi\\Desktop\\Programmation\\Java\\ItFollows\\NightmareESM_1_20_4.jar.src\\ESM\\MobBehavs\\MobMaxLife.java": {
+    "mtime": 1781862560.0,
+    "ast_hash": "4882029cb2de4f7745a1a1eecbd31da2",
+    "semantic_hash": "4882029cb2de4f7745a1a1eecbd31da2"
+  },
+  "C:\\Users\\wapzi\\Desktop\\Programmation\\Java\\ItFollows\\NightmareESM_1_20_4.jar.src\\ESM\\MobBehavs\\MobPlaceBlock.java": {
+    "mtime": 1781862560.0,
+    "ast_hash": "370681beb8ab824659712234a57d6505",
+    "semantic_hash": "370681beb8ab824659712234a57d6505"
+  },
+  "C:\\Users\\wapzi\\Desktop\\Programmation\\Java\\ItFollows\\NightmareESM_1_20_4.jar.src\\ESM\\MobBehavs\\MobPlaceTNT.java": {
+    "mtime": 1781862560.0,
+    "ast_hash": "dd2923046d4effd71665b538054819dd",
+    "semantic_hash": "dd2923046d4effd71665b538054819dd"
+  },
+  "C:\\Users\\wapzi\\Desktop\\Programmation\\Java\\ItFollows\\NightmareESM_1_20_4.jar.src\\ESM\\MobBehavs\\MobStartFires.java": {
+    "mtime": 1781862560.0,
+    "ast_hash": "0763f4807ea0b9501e9d96046264496b",
+    "semantic_hash": "0763f4807ea0b9501e9d96046264496b"
+  },
+  "C:\\Users\\wapzi\\Desktop\\Programmation\\Java\\ItFollows\\NightmareESM_1_20_4.jar.src\\ESM\\MobBehavs\\MobTargetPlayer.java": {
+    "mtime": 1781862560.0,
+    "ast_hash": "8a9579c5ed5950f3eb5178f331879cb8",
+    "semantic_hash": "8a9579c5ed5950f3eb5178f331879cb8"
+  },
+  "C:\\Users\\wapzi\\Desktop\\Programmation\\Java\\ItFollows\\NightmareESM_1_20_4.jar.src\\ESM\\MobBehavs\\SpawnRideableMob.java": {
+    "mtime": 1781862560.0,
+    "ast_hash": "dc5fd03a126ef539fe1e9a756e62d89f",
+    "semantic_hash": "dc5fd03a126ef539fe1e9a756e62d89f"
+  },
+  "C:\\Users\\wapzi\\Desktop\\Programmation\\Java\\ItFollows\\NightmareESM_1_20_4.jar.src\\ESM\\MobBehavs\\SpiderShootWeb.java": {
+    "mtime": 1781862560.0,
+    "ast_hash": "1ceed5b28e566ec90ce6ba1b8c2e6955",
+    "semantic_hash": "1ceed5b28e566ec90ce6ba1b8c2e6955"
+  },
+  "C:\\Users\\wapzi\\Desktop\\Programmation\\Java\\ItFollows\\NightmareESM_1_20_4.jar.src\\ESM\\MobInfo.java": {
+    "mtime": 1781862560.0,
+    "ast_hash": "040ea9b43b296e095e55e31152e0a96c",
+    "semantic_hash": "040ea9b43b296e095e55e31152e0a96c"
+  },
+  "C:\\Users\\wapzi\\Desktop\\Programmation\\Java\\ItFollows\\NightmareESM_1_20_4.jar.src\\ESM\\NightmareMain.java": {
+    "mtime": 1781862560.0,
+    "ast_hash": "00d817ef1abacbfa445ab2ce5afa6859",
+    "semantic_hash": "00d817ef1abacbfa445ab2ce5afa6859"
+  },
+  "C:\\Users\\wapzi\\Desktop\\Programmation\\Java\\ItFollows\\NightmareESM_1_20_4.jar.src\\ESM\\PositionInfo.java": {
+    "mtime": 1781862560.0,
+    "ast_hash": "18095329f9d081064d7488809b502e37",
+    "semantic_hash": "18095329f9d081064d7488809b502e37"
+  },
+  "C:\\Users\\wapzi\\Desktop\\Programmation\\Java\\ItFollows\\NightmareESM_1_20_4.jar.src\\ESM\\RNG.java": {
+    "mtime": 1781862560.0,
+    "ast_hash": "c17f9ab8e872e67835350a66428db37d",
+    "semantic_hash": "c17f9ab8e872e67835350a66428db37d"
+  },
+  "C:\\Users\\wapzi\\Desktop\\Programmation\\Java\\ItFollows\\NightmareESM_1_20_4.jar.src\\ESM\\SetPlayerSpawn.java": {
+    "mtime": 1781862560.0,
+    "ast_hash": "ab81e71d16aa5be2144744859265c6dd",
+    "semantic_hash": "ab81e71d16aa5be2144744859265c6dd"
+  },
+  "C:\\Users\\wapzi\\Desktop\\Programmation\\Java\\ItFollows\\NightmareESM_1_20_4.jar.src\\ESM\\SnapToBlockCenter.java": {
+    "mtime": 1781862560.0,
+    "ast_hash": "95a2cdae7390ce4a7ef7470fb10e03fd",
+    "semantic_hash": "95a2cdae7390ce4a7ef7470fb10e03fd"
+  },
+  "C:\\Users\\wapzi\\Desktop\\Programmation\\Java\\ItFollows\\geo.json": {
+    "mtime": 1781715899.62977,
+    "ast_hash": "921d2cb1f4ae12de856d87ce33d930e7",
+    "semantic_hash": "921d2cb1f4ae12de856d87ce33d930e7"
+  },
+  "C:\\Users\\wapzi\\Desktop\\Programmation\\Java\\ItFollows\\src\\client\\java\\io\\github\\yutoutcourt\\itfollows\\client\\render\\StalkerGeoModel.java": {
+    "mtime": 1781855197.2342017,
+    "ast_hash": "02ec9a382326b9d81b955f96975460f6",
+    "semantic_hash": "02ec9a382326b9d81b955f96975460f6"
+  },
+  "C:\\Users\\wapzi\\Desktop\\Programmation\\Java\\ItFollows\\src\\client\\java\\io\\github\\yutoutcourt\\itfollows\\client\\render\\StalkerRenderer.java": {
+    "mtime": 1781855208.5477874,
+    "ast_hash": "d9f007019cfe6bdbfe07aee149c4eb7d",
+    "semantic_hash": "d9f007019cfe6bdbfe07aee149c4eb7d"
+  },
+  "C:\\Users\\wapzi\\Desktop\\Programmation\\Java\\ItFollows\\src\\main\\java\\io\\github\\yutoutcourt\\itfollows\\entity\\ModEntities.java": {
+    "mtime": 1781712469.175292,
+    "ast_hash": "8e310b27000166595cf83599dfa155b4",
+    "semantic_hash": "8e310b27000166595cf83599dfa155b4"
+  },
+  "C:\\Users\\wapzi\\Desktop\\Programmation\\Java\\ItFollows\\src\\main\\java\\io\\github\\yutoutcourt\\itfollows\\entity\\StalkerEntity.java": {
+    "mtime": 1781870066.0949159,
+    "ast_hash": "87fc1184728687b77e628af06b088caf",
+    "semantic_hash": "87fc1184728687b77e628af06b088caf"
+  },
+  "C:\\Users\\wapzi\\Desktop\\Programmation\\Java\\ItFollows\\src\\main\\java\\io\\github\\yutoutcourt\\itfollows\\entity\\ai\\StalkerChaseGoal.java": {
+    "mtime": 1781875136.712079,
+    "ast_hash": "8a21f9e1b9480341aec87047b2350960",
+    "semantic_hash": "8a21f9e1b9480341aec87047b2350960"
+  },
+  "C:\\Users\\wapzi\\Desktop\\Programmation\\Java\\ItFollows\\src\\main\\java\\io\\github\\yutoutcourt\\itfollows\\entity\\ai\\StalkerMoveControl.java": {
+    "mtime": 1781870082.3486907,
+    "ast_hash": "b1d927dda40b2dabb019718f5674d326",
+    "semantic_hash": "b1d927dda40b2dabb019718f5674d326"
+  },
+  "C:\\Users\\wapzi\\Desktop\\Programmation\\Java\\ItFollows\\src\\main\\java\\io\\github\\yutoutcourt\\itfollows\\fatigue\\FaintManager.java": {
+    "mtime": 1781691853.7869675,
+    "ast_hash": "5f86ab8296d05901236123cadc3b7183",
+    "semantic_hash": "5f86ab8296d05901236123cadc3b7183"
+  },
+  "C:\\Users\\wapzi\\Desktop\\Programmation\\Java\\ItFollows\\src\\main\\java\\io\\github\\yutoutcourt\\itfollows\\mixin\\ChunkMapTrackedEntityMixin.java": {
+    "mtime": 1781706546.1250298,
+    "ast_hash": "d0ec21b40910b3fc4749ef13f421ed0b",
+    "semantic_hash": "d0ec21b40910b3fc4749ef13f421ed0b"
+  },
+  "C:\\Users\\wapzi\\Desktop\\Programmation\\Java\\ItFollows\\src\\main\\java\\io\\github\\yutoutcourt\\itfollows\\tracking\\HauntController.java": {
+    "mtime": 1781712977.4006772,
+    "ast_hash": "8d445f78ea7fe47efa659bb8b39449ca",
+    "semantic_hash": "8d445f78ea7fe47efa659bb8b39449ca"
+  },
+  "C:\\Users\\wapzi\\Desktop\\Programmation\\Java\\ItFollows\\src\\main\\java\\io\\github\\yutoutcourt\\itfollows\\tracking\\StalkTrackerState.java": {
+    "mtime": 1781710464.2991893,
+    "ast_hash": "9e0640a38dfb4efa8405d9fbf6aea058",
+    "semantic_hash": "9e0640a38dfb4efa8405d9fbf6aea058"
+  },
+  "C:\\Users\\wapzi\\Desktop\\Programmation\\Java\\ItFollows\\src\\main\\java\\io\\github\\yutoutcourt\\itfollows\\tracking\\TargetSelector.java": {
+    "mtime": 1781706621.3024964,
+    "ast_hash": "964b09de7bb23410f5f9b7d4ccf2e10a",
+    "semantic_hash": "964b09de7bb23410f5f9b7d4ccf2e10a"
+  },
+  "C:\\Users\\wapzi\\Desktop\\Programmation\\Java\\ItFollows\\src\\main\\resources\\assets\\itfollows\\animations\\stalker.animation.json": {
+    "mtime": 1781855124.6626353,
+    "ast_hash": "cf2bd41d4a1ecfb814af475e9eae524c",
+    "semantic_hash": "cf2bd41d4a1ecfb814af475e9eae524c"
+  },
+  "C:\\Users\\wapzi\\Desktop\\Programmation\\Java\\ItFollows\\src\\main\\resources\\assets\\itfollows\\geo\\stalker.geo.json": {
+    "mtime": 1781855124.6396348,
+    "ast_hash": "2c8708f1cef2eb8519a4bbe2645fbe9b",
+    "semantic_hash": "2c8708f1cef2eb8519a4bbe2645fbe9b"
+  },
+  "C:\\Users\\wapzi\\Desktop\\Programmation\\Java\\ItFollows\\stalker_blockbench\\TEST\\CLAUDE\\wraith.anim.json": {
+    "mtime": 1781817889.8212774,
+    "ast_hash": "25a60fec7bd311662bb7789e46740944",
+    "semantic_hash": "25a60fec7bd311662bb7789e46740944"
+  },
+  "C:\\Users\\wapzi\\Desktop\\Programmation\\Java\\ItFollows\\stalker_blockbench\\TEST\\CLAUDE\\wraith.geo.json": {
+    "mtime": 1781817877.9207568,
+    "ast_hash": "d46fafc918dd45e680b5580a1f8d3d0e",
+    "semantic_hash": "d46fafc918dd45e680b5580a1f8d3d0e"
+  },
+  "C:\\Users\\wapzi\\Desktop\\Programmation\\Java\\ItFollows\\stalker_blockbench\\TEST\\GEMINI\\animation.json": {
+    "mtime": 1781813597.365968,
+    "ast_hash": "faaf751f6dc6b6f2c6969a52afad7f9e",
+    "semantic_hash": "faaf751f6dc6b6f2c6969a52afad7f9e"
+  },
+  "C:\\Users\\wapzi\\Desktop\\Programmation\\Java\\ItFollows\\stalker_blockbench\\TEST\\GEMINI\\body.json": {
+    "mtime": 1781813580.209237,
+    "ast_hash": "b215f9238e5f3d5a6bff2dbd68d6178b",
+    "semantic_hash": "b215f9238e5f3d5a6bff2dbd68d6178b"
+  },
+  "C:\\Users\\wapzi\\Desktop\\Programmation\\Java\\ItFollows\\stalker_blockbench\\TEST\\GPT\\fallen_hunter.animation.json": {
+    "mtime": 1781813717.1160707,
+    "ast_hash": "3f1274ffe16c285253426c75026619b0",
+    "semantic_hash": "3f1274ffe16c285253426c75026619b0"
+  },
+  "C:\\Users\\wapzi\\Desktop\\Programmation\\Java\\ItFollows\\stalker_blockbench\\TEST\\GPT\\fallen_hunter.geo.json": {
+    "mtime": 1781813703.0402288,
+    "ast_hash": "7aa755fb120690951861189c738f47c1",
+    "semantic_hash": "7aa755fb120690951861189c738f47c1"
+  },
+  "C:\\Users\\wapzi\\Desktop\\Programmation\\Java\\ItFollows\\stalker_blockbench\\TEST\\GROCK\\animation.json": {
+    "mtime": 1781854757.1635563,
+    "ast_hash": "cf2bd41d4a1ecfb814af475e9eae524c",
+    "semantic_hash": "cf2bd41d4a1ecfb814af475e9eae524c"
+  },
+  "C:\\Users\\wapzi\\Desktop\\Programmation\\Java\\ItFollows\\stalker_blockbench\\TEST\\GROCK\\body.json": {
+    "mtime": 1781856265.0732667,
+    "ast_hash": "2c8708f1cef2eb8519a4bbe2645fbe9b",
+    "semantic_hash": "2c8708f1cef2eb8519a4bbe2645fbe9b"
+  },
+  "C:\\Users\\wapzi\\Desktop\\Programmation\\Java\\ItFollows\\stalker_blockbench\\TEST\\GROCK\\gen_emissive.py": {
+    "mtime": 1781854691.8034647,
+    "ast_hash": "0a9ddfcb6db6e2baeddbaa428477e57e",
+    "semantic_hash": "0a9ddfcb6db6e2baeddbaa428477e57e"
+  },
+  "C:\\Users\\wapzi\\Desktop\\Programmation\\Java\\ItFollows\\stalker_blockbench\\TEST\\GROCK\\gen_texture.py": {
+    "mtime": 1781854152.6632516,
+    "ast_hash": "6870821f33dcccd8a123876a869b1267",
+    "semantic_hash": "6870821f33dcccd8a123876a869b1267"
+  },
+  "C:\\Users\\wapzi\\Desktop\\Programmation\\Java\\ItFollows\\stalker_blockbench\\geo.json": {
+    "mtime": 1781715955.4289675,
+    "ast_hash": "921d2cb1f4ae12de856d87ce33d930e7",
+    "semantic_hash": "921d2cb1f4ae12de856d87ce33d930e7"
+  },
+  "C:\\Users\\wapzi\\Desktop\\Programmation\\Java\\ItFollows\\stalker_blockbench\\stalker.animation.json": {
+    "mtime": 1781715791.6382287,
+    "ast_hash": "baa0ecd2c4613bc11ace14abdb98ceef",
+    "semantic_hash": "baa0ecd2c4613bc11ace14abdb98ceef"
+  },
+  "C:\\Users\\wapzi\\Desktop\\Programmation\\Java\\ItFollows\\IA.md": {
+    "mtime": 1781809136.5070355,
+    "ast_hash": "8bab1708026779f550af166a962f50fe",
+    "semantic_hash": "8bab1708026779f550af166a962f50fe"
+  },
+  "C:\\Users\\wapzi\\Desktop\\Programmation\\Java\\ItFollows\\src\\main\\resources\\assets\\itfollows\\textures\\entity\\stalker.png": {
+    "mtime": 1781855124.68615,
+    "ast_hash": "8d5119fcc69646fb8d9d4e5b4867b09a",
+    "semantic_hash": "8d5119fcc69646fb8d9d4e5b4867b09a"
+  },
+  "C:\\Users\\wapzi\\Desktop\\Programmation\\Java\\ItFollows\\src\\main\\resources\\assets\\itfollows\\textures\\entity\\stalker_glowmask.png": {
+    "mtime": 1781855124.7091515,
+    "ast_hash": "5a6e5dc2f431b0c836e647cc63a7a23e",
+    "semantic_hash": "5a6e5dc2f431b0c836e647cc63a7a23e"
+  },
+  "C:\\Users\\wapzi\\Desktop\\Programmation\\Java\\ItFollows\\stalker_blockbench\\TEST\\CLAUDE\\wraith_texture.jpg": {
+    "mtime": 1781813814.5645058,
+    "ast_hash": "201a609c3b2ab45873527e7cde12e459",
+    "semantic_hash": "201a609c3b2ab45873527e7cde12e459"
+  },
+  "C:\\Users\\wapzi\\Desktop\\Programmation\\Java\\ItFollows\\stalker_blockbench\\TEST\\GPT\\fallen_hunter_texture.png": {
+    "mtime": 1781813730.3142154,
+    "ast_hash": "c83c0a8779acc045be9fef0e5dd7e4f1",
+    "semantic_hash": "c83c0a8779acc045be9fef0e5dd7e4f1"
+  },
+  "C:\\Users\\wapzi\\Desktop\\Programmation\\Java\\ItFollows\\stalker_blockbench\\TEST\\GROCK\\stalker_emissive.png": {
+    "mtime": 1781854700.2354057,
+    "ast_hash": "5a6e5dc2f431b0c836e647cc63a7a23e",
+    "semantic_hash": "5a6e5dc2f431b0c836e647cc63a7a23e"
+  },
+  "C:\\Users\\wapzi\\Desktop\\Programmation\\Java\\ItFollows\\stalker_blockbench\\TEST\\GROCK\\stalker_texture.png": {
+    "mtime": 1781854757.132553,
+    "ast_hash": "8d5119fcc69646fb8d9d4e5b4867b09a",
+    "semantic_hash": "8d5119fcc69646fb8d9d4e5b4867b09a"
+  },
+  "C:\\Users\\wapzi\\Desktop\\Programmation\\Java\\ItFollows\\stalker_blockbench\\idee.png": {
+    "mtime": 1781857837.8651712,
+    "ast_hash": "2ab21ffa3fd0f6d2929b1cd826be7a95",
+    "semantic_hash": "2ab21ffa3fd0f6d2929b1cd826be7a95"
+  },
+  "C:\\Users\\wapzi\\Desktop\\Programmation\\Java\\ItFollows\\stalker_blockbench\\stalker_texture_template.png": {
+    "mtime": 1781715719.1518703,
+    "ast_hash": "d208075a0ae8ec5b811913dcb32c29cb",
+    "semantic_hash": "d208075a0ae8ec5b811913dcb32c29cb"
   }
 }

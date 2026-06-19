@@ -1,11 +1,15 @@
 package io.github.yutoutcourt.itfollows.net;
 
 import io.github.yutoutcourt.itfollows.Itfollows;
+import io.github.yutoutcourt.itfollows.sound.ModSounds;
 import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.protocol.game.ClientboundSoundPacket;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundSource;
 
 /**
  * Couche réseau du mod. En 1.20.1 on utilise l'API basée buffer
@@ -40,5 +44,19 @@ public final class ItFollowsNetworking {
         FriendlyByteBuf buf = PacketByteBufs.create();
         buf.writeBoolean(fainted);
         ServerPlayNetworking.send(player, FAINT_SYNC, buf);
+    }
+
+    /**
+     * Joue un son <b>uniquement</b> chez {@code player}, à la position monde donnée (sons spatialisés :
+     * directionnels et atténués par la distance). Sert aux avertissements ciblés de la traque
+     * (bruits lointains de l'escalade, voix « LOOK BEHIND YOU ») : les autres joueurs n'entendent rien,
+     * cohérent avec « je suis le seul à la voir ». On envoie le {@link ClientboundSoundPacket} vanilla
+     * directement sur la connexion du joueur plutôt que via {@code Level#playSound} (qui diffuse à tous).
+     */
+    public static void playSoundTo(ServerPlayer player, SoundEvent sound,
+                                   double x, double y, double z, float volume, float pitch) {
+        player.connection.send(new ClientboundSoundPacket(
+                ModSounds.holder(sound), SoundSource.HOSTILE,
+                x, y, z, volume, pitch, player.getRandom().nextLong()));
     }
 }
