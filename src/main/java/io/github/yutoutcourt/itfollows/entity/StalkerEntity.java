@@ -106,10 +106,10 @@ public class StalkerEntity extends PathfinderMob implements GeoEntity {
         return Mob.createMobAttributes()
                 .add(Attributes.MAX_HEALTH, 100.0)
                 .add(Attributes.MOVEMENT_SPEED, 0.3)
-                .add(Attributes.ATTACK_DAMAGE, 4.0)
+                .add(Attributes.ATTACK_DAMAGE, 9.0)
                 // FOLLOW_RANGE pilote maxVisitedNodes de la nav vanilla (≈ range×16). On le garde bas :
                 // la traque à courte portée suffit, la longue distance est couverte par HauntController.
-                .add(Attributes.FOLLOW_RANGE, 48.0);
+                .add(Attributes.FOLLOW_RANGE, 1000.0);
     }
 
     @Override

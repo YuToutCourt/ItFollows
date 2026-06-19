@@ -88,9 +88,9 @@ public class ItFollowsConfig {
      */
     public int graceTicks = 12000;
     /** Vitesse de déplacement de l'entité (attribut MOVEMENT_SPEED). Volontairement lente. */
-    public float stalkerSpeed = 0.2f;
+    public float stalkerSpeed = 0.25f;
     /** Dégâts infligés à la cible au contact (attribut ATTACK_DAMAGE). */
-    public float stalkerAttackDamage = 4.0f;
+    public float stalkerAttackDamage = 9.0f;
     /** Intervalle (ticks) entre deux passes de la boucle de traque (sélection/simulation/matérialisation). */
     public int hauntSampleIntervalTicks = 20;
 
@@ -209,7 +209,7 @@ public class ItFollowsConfig {
     /** Intervalle maximum (ticks) entre deux événements physiques (étape 2). 500 = 25 s. */
     public int hauntPhysicalEventMaxIntervalTicks = 500;
     /** Rayon (blocs) autour de la cible où l'on ouvre une porte / casse un bloc réel (étape 2). */
-    public int hauntPhysicalEventRadius = 10;
+    public int hauntPhysicalEventRadius = 20;
 
     /** Intervalle minimum (ticks) entre deux flashs de silhouette (étape 3). 300 = 15 s. */
     public int hauntSilhouetteMinIntervalTicks = 300;

@@ -1,8 +1,0 @@
-Manifest-Version: 1.0
-Specification-Title: examplemod
-Specification-Vendor: YourNameHere, OtherNameHere
-Specification-Version: 1
-Implementation-Title: ESM
-Implementation-Version: 1.0.0
-Implementation-Vendor: YourNameHere, OtherNameHere
-
