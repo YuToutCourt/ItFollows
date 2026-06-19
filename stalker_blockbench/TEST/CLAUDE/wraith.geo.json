@@ -1,0 +1,527 @@
+{
+  "format_version": "1.12.0",
+  "minecraft:geometry": [
+    {
+      "description": {
+        "identifier": "geometry.stalker",
+        "texture_width": 128,
+        "texture_height": 128,
+        "visible_bounds_width": 3,
+        "visible_bounds_height": 4,
+        "visible_bounds_offset": [0, 1.5, 0]
+      },
+      "bones": [
+        {
+          "name": "root",
+          "pivot": [0, 0, 0]
+        },
+        {
+          "name": "body",
+          "parent": "root",
+          "pivot": [0, 12, 0],
+          "cubes": [
+            {
+              "comment": "Torso principal",
+              "origin": [-4, 12, -2.5],
+              "size": [8, 10, 5],
+              "uv": [0, 0]
+            },
+            {
+              "comment": "Cote gauche saillante",
+              "origin": [-5, 13, -2],
+              "size": [1, 2, 4],
+              "uv": [26, 0]
+            },
+            {
+              "comment": "Cote droite saillante",
+              "origin": [4, 13, -2],
+              "size": [1, 2, 4],
+              "uv": [26, 0],
+              "mirror": true
+            },
+            {
+              "comment": "Cote gauche 2",
+              "origin": [-5, 16, -2],
+              "size": [1, 2, 4],
+              "uv": [26, 8]
+            },
+            {
+              "comment": "Cote droite 2",
+              "origin": [4, 16, -2],
+              "size": [1, 2, 4],
+              "uv": [26, 8],
+              "mirror": true
+            },
+            {
+              "comment": "Vetement dechire - lambeau gauche avant",
+              "origin": [-4.5, 12, -3],
+              "size": [2, 5, 0.5],
+              "uv": [32, 0]
+            },
+            {
+              "comment": "Vetement dechire - lambeau droit avant",
+              "origin": [2, 13, -3],
+              "size": [2, 4, 0.5],
+              "uv": [36, 0]
+            },
+            {
+              "comment": "Vetement dechire - lambeau dos",
+              "origin": [-1, 14, 2.5],
+              "size": [3, 6, 0.5],
+              "uv": [40, 0]
+            },
+            {
+              "comment": "Epaule gauche deformee (plus haute)",
+              "origin": [-5.5, 21, -2.5],
+              "size": [2, 2, 5],
+              "uv": [46, 0]
+            },
+            {
+              "comment": "Epaule droite affaissee",
+              "origin": [3.5, 20, -2],
+              "size": [2, 1.5, 4],
+              "uv": [46, 8]
+            }
+          ]
+        },
+        {
+          "name": "waist",
+          "parent": "body",
+          "pivot": [0, 12, 0],
+          "cubes": [
+            {
+              "comment": "Bassin",
+              "origin": [-3.5, 8, -2],
+              "size": [7, 4, 4],
+              "uv": [52, 0]
+            },
+            {
+              "comment": "Vetement - ceinture dechiquetee",
+              "origin": [-4, 8, -2.5],
+              "size": [8, 1, 5],
+              "uv": [52, 10]
+            }
+          ]
+        },
+        {
+          "name": "head",
+          "parent": "body",
+          "pivot": [0, 22, 0],
+          "rotation": [5, 0, -3],
+          "cubes": [
+            {
+              "comment": "Crane principal",
+              "origin": [-4, 22, -4],
+              "size": [8, 8, 8],
+              "uv": [0, 32]
+            },
+            {
+              "comment": "Orbite gauche - creux profond",
+              "origin": [-3.5, 25, -4.5],
+              "size": [2.5, 2.5, 0.5],
+              "uv": [32, 32]
+            },
+            {
+              "comment": "Orbite droite - creux profond",
+              "origin": [1, 25, -4.5],
+              "size": [2.5, 2.5, 0.5],
+              "uv": [38, 32]
+            },
+            {
+              "comment": "Bosse frontale deformee",
+              "origin": [-2, 28, -4.5],
+              "size": [4, 2, 0.5],
+              "uv": [44, 32]
+            },
+            {
+              "comment": "Machoire superieure",
+              "origin": [-2.5, 22.5, -4.5],
+              "size": [5, 1.5, 0.5],
+              "uv": [50, 32]
+            }
+          ]
+        },
+        {
+          "name": "jaw",
+          "parent": "head",
+          "pivot": [0, 23, -2],
+          "rotation": [-20, 0, 0],
+          "cubes": [
+            {
+              "comment": "Machoire inferieure - bante",
+              "origin": [-2, 21, -4],
+              "size": [4, 2, 3],
+              "uv": [56, 32]
+            },
+            {
+              "comment": "Dent gauche 1",
+              "origin": [-2, 20.5, -4.2],
+              "size": [0.8, 1.5, 0.5],
+              "uv": [64, 32]
+            },
+            {
+              "comment": "Dent gauche 2",
+              "origin": [-0.8, 20.5, -4.2],
+              "size": [0.8, 1, 0.5],
+              "uv": [64, 35]
+            },
+            {
+              "comment": "Dent droite 1",
+              "origin": [1.2, 20.5, -4.2],
+              "size": [0.8, 1.5, 0.5],
+              "uv": [64, 32],
+              "mirror": true
+            },
+            {
+              "comment": "Dent droite 2",
+              "origin": [0, 20.5, -4.2],
+              "size": [0.8, 1, 0.5],
+              "uv": [64, 35],
+              "mirror": true
+            },
+            {
+              "comment": "Langue pendante",
+              "origin": [-0.5, 20, -4.3],
+              "size": [1, 1, 0.3],
+              "uv": [68, 32]
+            }
+          ]
+        },
+        {
+          "name": "left_arm",
+          "parent": "body",
+          "pivot": [-5.5, 22, 0],
+          "rotation": [0, 0, 10],
+          "cubes": [
+            {
+              "comment": "Bras gauche superieur (plus long, asymetrique)",
+              "origin": [-8, 14, -2],
+              "size": [3, 9, 4],
+              "uv": [0, 48]
+            },
+            {
+              "comment": "Avant-bras gauche",
+              "origin": [-7.5, 6, -1.5],
+              "size": [2.5, 8, 3],
+              "uv": [14, 48]
+            }
+          ]
+        },
+        {
+          "name": "left_hand",
+          "parent": "left_arm",
+          "pivot": [-6.5, 6, 0],
+          "cubes": [
+            {
+              "comment": "Main gauche",
+              "origin": [-8, 2, -1.5],
+              "size": [3, 4, 3],
+              "uv": [26, 48]
+            },
+            {
+              "comment": "Griffe gauche 1",
+              "origin": [-7.8, 0, -0.5],
+              "size": [0.8, 2.5, 0.8],
+              "uv": [36, 48]
+            },
+            {
+              "comment": "Griffe gauche 2",
+              "origin": [-6.6, 0, -0.5],
+              "size": [0.8, 2, 0.8],
+              "uv": [38, 48]
+            },
+            {
+              "comment": "Griffe gauche 3",
+              "origin": [-5.4, 0, -0.5],
+              "size": [0.8, 2.5, 0.8],
+              "uv": [40, 48]
+            },
+            {
+              "comment": "Griffe gauche 4 (plus longue)",
+              "origin": [-7.2, -0.5, 0.5],
+              "size": [0.8, 3, 0.8],
+              "uv": [42, 48]
+            }
+          ]
+        },
+        {
+          "name": "right_arm",
+          "parent": "body",
+          "pivot": [5.5, 21, 0],
+          "rotation": [0, 0, -8],
+          "cubes": [
+            {
+              "comment": "Bras droit superieur (epaule desosse, plus court)",
+              "origin": [5, 14, -1.5],
+              "size": [2.5, 7, 3.5],
+              "uv": [44, 48]
+            },
+            {
+              "comment": "Avant-bras droit",
+              "origin": [5, 7, -1.5],
+              "size": [2.5, 7, 3],
+              "uv": [56, 48]
+            }
+          ]
+        },
+        {
+          "name": "right_hand",
+          "parent": "right_arm",
+          "pivot": [6, 7, 0],
+          "cubes": [
+            {
+              "comment": "Main droite",
+              "origin": [5, 3, -1.5],
+              "size": [3, 4, 3],
+              "uv": [68, 48]
+            },
+            {
+              "comment": "Griffe droite 1",
+              "origin": [5.2, 1, -0.5],
+              "size": [0.8, 2.5, 0.8],
+              "uv": [78, 48]
+            },
+            {
+              "comment": "Griffe droite 2",
+              "origin": [6.4, 1, -0.5],
+              "size": [0.8, 2, 0.8],
+              "uv": [80, 48]
+            },
+            {
+              "comment": "Griffe droite 3",
+              "origin": [7.6, 1, -0.5],
+              "size": [0.8, 2.5, 0.8],
+              "uv": [82, 48]
+            }
+          ]
+        },
+        {
+          "name": "left_leg",
+          "parent": "waist",
+          "pivot": [-2, 8, 0],
+          "rotation": [0, 0, 2],
+          "cubes": [
+            {
+              "comment": "Cuisse gauche",
+              "origin": [-4, 0, -2],
+              "size": [3.5, 8, 4],
+              "uv": [0, 64]
+            },
+            {
+              "comment": "Mollet gauche",
+              "origin": [-3.8, -7, -1.5],
+              "size": [3, 7, 3.5],
+              "uv": [16, 64]
+            }
+          ]
+        },
+        {
+          "name": "left_foot",
+          "parent": "left_leg",
+          "pivot": [-2, -7, 0],
+          "cubes": [
+            {
+              "comment": "Pied gauche",
+              "origin": [-4, -10, -3],
+              "size": [3.5, 3, 6],
+              "uv": [30, 64]
+            },
+            {
+              "comment": "Griffe pied gauche",
+              "origin": [-3.5, -11, -4],
+              "size": [2.5, 1.5, 1.5],
+              "uv": [44, 64]
+            }
+          ]
+        },
+        {
+          "name": "right_leg",
+          "parent": "waist",
+          "pivot": [2, 8, 0],
+          "rotation": [0, 0, -2],
+          "cubes": [
+            {
+              "comment": "Cuisse droite",
+              "origin": [0.5, 0, -2],
+              "size": [3.5, 8, 4],
+              "uv": [52, 64]
+            },
+            {
+              "comment": "Mollet droit",
+              "origin": [0.8, -7, -1.5],
+              "size": [3, 7, 3.5],
+              "uv": [68, 64]
+            }
+          ]
+        },
+        {
+          "name": "right_foot",
+          "parent": "right_leg",
+          "pivot": [2, -7, 0],
+          "cubes": [
+            {
+              "comment": "Pied droit",
+              "origin": [0.5, -10, -3],
+              "size": [3.5, 3, 6],
+              "uv": [84, 64]
+            },
+            {
+              "comment": "Griffe pied droit",
+              "origin": [1, -11, -4],
+              "size": [2.5, 1.5, 1.5],
+              "uv": [98, 64]
+            }
+          ]
+        },
+        {
+          "name": "wing_left_root",
+          "parent": "body",
+          "pivot": [-3, 21, 1],
+          "rotation": [0, 0, 5],
+          "cubes": []
+        },
+        {
+          "name": "wing_left_mid",
+          "parent": "wing_left_root",
+          "pivot": [-3, 21, 1],
+          "rotation": [0, 0, 0],
+          "cubes": [
+            {
+              "comment": "Segment d'aile gauche - replie contre dos",
+              "origin": [-4, 15, 0],
+              "size": [1.5, 7, 2],
+              "uv": [0, 80]
+            }
+          ]
+        },
+        {
+          "name": "wing_left_tip",
+          "parent": "wing_left_mid",
+          "pivot": [-4, 15, 1],
+          "rotation": [0, 0, 0],
+          "cubes": [
+            {
+              "comment": "Pointe aile gauche - replié",
+              "origin": [-5, 12, 0],
+              "size": [1.5, 5, 1.5],
+              "uv": [8, 80]
+            }
+          ]
+        },
+        {
+          "name": "wing_membrane_left",
+          "parent": "wing_left_root",
+          "pivot": [-3, 20, 1],
+          "rotation": [0, 0, 0],
+          "cubes": [
+            {
+              "comment": "Membrane aile gauche - repliee",
+              "origin": [-4.5, 14, 0.5],
+              "size": [1, 7, 1],
+              "uv": [16, 80]
+            }
+          ]
+        },
+        {
+          "name": "wing_right_root",
+          "parent": "body",
+          "pivot": [3, 21, 1],
+          "rotation": [0, 0, -5],
+          "cubes": []
+        },
+        {
+          "name": "wing_right_mid",
+          "parent": "wing_right_root",
+          "pivot": [3, 21, 1],
+          "rotation": [0, 0, 0],
+          "cubes": [
+            {
+              "comment": "Segment d'aile droite - replie contre dos",
+              "origin": [2.5, 15, 0],
+              "size": [1.5, 7, 2],
+              "uv": [22, 80]
+            }
+          ]
+        },
+        {
+          "name": "wing_right_tip",
+          "parent": "wing_right_mid",
+          "pivot": [4, 15, 1],
+          "rotation": [0, 0, 0],
+          "cubes": [
+            {
+              "comment": "Pointe aile droite - replié",
+              "origin": [3.5, 12, 0],
+              "size": [1.5, 5, 1.5],
+              "uv": [30, 80]
+            }
+          ]
+        },
+        {
+          "name": "wing_membrane_right",
+          "parent": "wing_right_root",
+          "pivot": [3, 20, 1],
+          "rotation": [0, 0, 0],
+          "cubes": [
+            {
+              "comment": "Membrane aile droite - repliee",
+              "origin": [3.5, 14, 0.5],
+              "size": [1, 7, 1],
+              "uv": [38, 80]
+            }
+          ]
+        },
+        {
+          "name": "neck",
+          "parent": "body",
+          "pivot": [0, 22, 0],
+          "cubes": [
+            {
+              "comment": "Cou - tendu et decharné",
+              "origin": [-1.5, 21, -1.5],
+              "size": [3, 2, 3],
+              "uv": [44, 80]
+            },
+            {
+              "comment": "Veine cou gauche",
+              "origin": [-2, 21.5, -1],
+              "size": [0.5, 1.5, 1],
+              "uv": [56, 80]
+            }
+          ]
+        },
+        {
+          "name": "spine",
+          "parent": "body",
+          "pivot": [0, 17, 2],
+          "cubes": [
+            {
+              "comment": "Vertebre saillante 1",
+              "origin": [-0.5, 19, 2],
+              "size": [1, 1, 1.5],
+              "uv": [60, 80]
+            },
+            {
+              "comment": "Vertebre saillante 2",
+              "origin": [-0.5, 17, 2],
+              "size": [1, 1, 1.5],
+              "uv": [64, 80]
+            },
+            {
+              "comment": "Vertebre saillante 3",
+              "origin": [-0.5, 15, 2],
+              "size": [1, 1, 1.5],
+              "uv": [68, 80]
+            },
+            {
+              "comment": "Vertebre saillante 4",
+              "origin": [-0.5, 13, 2],
+              "size": [1, 1, 1.5],
+              "uv": [72, 80]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

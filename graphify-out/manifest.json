@@ -1,0 +1,132 @@
+{
+  "C:\\Users\\wapzi\\Desktop\\Programmation\\Java\\ItFollows\\build.gradle": {
+    "mtime": 1781682960.5903878,
+    "ast_hash": "34114cd4d16f23c22bb3bd0ec63df18a",
+    "semantic_hash": "34114cd4d16f23c22bb3bd0ec63df18a"
+  },
+  "C:\\Users\\wapzi\\Desktop\\Programmation\\Java\\ItFollows\\settings.gradle": {
+    "mtime": 1781682953.6254985,
+    "ast_hash": "ffa15cb4be1126b32eb6c523be3a440b",
+    "semantic_hash": "ffa15cb4be1126b32eb6c523be3a440b"
+  },
+  "C:\\Users\\wapzi\\Desktop\\Programmation\\Java\\ItFollows\\src\\client\\java\\io\\github\\yutoutcourt\\itfollows\\client\\ClientFatigueState.java": {
+    "mtime": 1781684662.006557,
+    "ast_hash": "f2843619bda03377916b5addd2756653",
+    "semantic_hash": "f2843619bda03377916b5addd2756653"
+  },
+  "C:\\Users\\wapzi\\Desktop\\Programmation\\Java\\ItFollows\\src\\client\\java\\io\\github\\yutoutcourt\\itfollows\\client\\ItfollowsClient.java": {
+    "mtime": 1781684687.7729053,
+    "ast_hash": "595846ed893512209c7db8f2062835a1",
+    "semantic_hash": "595846ed893512209c7db8f2062835a1"
+  },
+  "C:\\Users\\wapzi\\Desktop\\Programmation\\Java\\ItFollows\\src\\client\\java\\io\\github\\yutoutcourt\\itfollows\\client\\ItfollowsDataGenerator.java": {
+    "mtime": 1781682953.7392125,
+    "ast_hash": "b474af2e69b18b6c143dbeeea7148e77",
+    "semantic_hash": "b474af2e69b18b6c143dbeeea7148e77"
+  },
+  "C:\\Users\\wapzi\\Desktop\\Programmation\\Java\\ItFollows\\src\\client\\java\\io\\github\\yutoutcourt\\itfollows\\client\\hud\\FatigueHudOverlay.java": {
+    "mtime": 1781687967.894078,
+    "ast_hash": "780f3d47bf9533c9e2fe6aa36314c310",
+    "semantic_hash": "780f3d47bf9533c9e2fe6aa36314c310"
+  },
+  "C:\\Users\\wapzi\\Desktop\\Programmation\\Java\\ItFollows\\src\\client\\resources\\itfollows.client.mixins.json": {
+    "mtime": 1781682953.696138,
+    "ast_hash": "c8938b13c3b56fa22b2ac5f11f05feb7",
+    "semantic_hash": "c8938b13c3b56fa22b2ac5f11f05feb7"
+  },
+  "C:\\Users\\wapzi\\Desktop\\Programmation\\Java\\ItFollows\\src\\main\\java\\io\\github\\yutoutcourt\\itfollows\\Itfollows.java": {
+    "mtime": 1781688468.9859438,
+    "ast_hash": "b80a7e52dcaca77132a4833db0239048",
+    "semantic_hash": "b80a7e52dcaca77132a4833db0239048"
+  },
+  "C:\\Users\\wapzi\\Desktop\\Programmation\\Java\\ItFollows\\src\\main\\java\\io\\github\\yutoutcourt\\itfollows\\TestEvents.java": {
+    "mtime": 1781690293.031232,
+    "ast_hash": "e4c16f433986af1c8cdc92405f1bf85b",
+    "semantic_hash": "e4c16f433986af1c8cdc92405f1bf85b"
+  },
+  "C:\\Users\\wapzi\\Desktop\\Programmation\\Java\\ItFollows\\src\\main\\java\\io\\github\\yutoutcourt\\itfollows\\command\\ItFollowsCommand.java": {
+    "mtime": 1781684601.0248675,
+    "ast_hash": "994c57746bdaf7c9175a77316f59ead8",
+    "semantic_hash": "994c57746bdaf7c9175a77316f59ead8"
+  },
+  "C:\\Users\\wapzi\\Desktop\\Programmation\\Java\\ItFollows\\src\\main\\java\\io\\github\\yutoutcourt\\itfollows\\config\\ItFollowsConfig.java": {
+    "mtime": 1781688405.3169925,
+    "ast_hash": "e13659aaa7ae3886afbc05a7313e185c",
+    "semantic_hash": "e13659aaa7ae3886afbc05a7313e185c"
+  },
+  "C:\\Users\\wapzi\\Desktop\\Programmation\\Java\\ItFollows\\src\\main\\java\\io\\github\\yutoutcourt\\itfollows\\fatigue\\FatigueEffects.java": {
+    "mtime": 1781684506.7701054,
+    "ast_hash": "47aa5d6341191af02d821ec2bd5e8b33",
+    "semantic_hash": "47aa5d6341191af02d821ec2bd5e8b33"
+  },
+  "C:\\Users\\wapzi\\Desktop\\Programmation\\Java\\ItFollows\\src\\main\\java\\io\\github\\yutoutcourt\\itfollows\\fatigue\\FatigueManager.java": {
+    "mtime": 1781688457.307205,
+    "ast_hash": "6e34c10545ebefd1cea81cb9ecac6fe3",
+    "semantic_hash": "6e34c10545ebefd1cea81cb9ecac6fe3"
+  },
+  "C:\\Users\\wapzi\\Desktop\\Programmation\\Java\\ItFollows\\src\\main\\java\\io\\github\\yutoutcourt\\itfollows\\fatigue\\FatigueRules.java": {
+    "mtime": 1781684485.2574468,
+    "ast_hash": "8f0bc9ed208732273123634ca26d6cb6",
+    "semantic_hash": "8f0bc9ed208732273123634ca26d6cb6"
+  },
+  "C:\\Users\\wapzi\\Desktop\\Programmation\\Java\\ItFollows\\src\\main\\java\\io\\github\\yutoutcourt\\itfollows\\fatigue\\FatigueState.java": {
+    "mtime": 1781684497.0840018,
+    "ast_hash": "0dcf8c3bfaedb701f50c7641b5064d70",
+    "semantic_hash": "0dcf8c3bfaedb701f50c7641b5064d70"
+  },
+  "C:\\Users\\wapzi\\Desktop\\Programmation\\Java\\ItFollows\\src\\main\\java\\io\\github\\yutoutcourt\\itfollows\\fatigue\\FatigueTier.java": {
+    "mtime": 1781684473.5309236,
+    "ast_hash": "2a7c517ab872b3a50ca4eee08e8b262f",
+    "semantic_hash": "2a7c517ab872b3a50ca4eee08e8b262f"
+  },
+  "C:\\Users\\wapzi\\Desktop\\Programmation\\Java\\ItFollows\\src\\main\\java\\io\\github\\yutoutcourt\\itfollows\\mixin\\LivingEntityJumpMixin.java": {
+    "mtime": 1781684620.7784991,
+    "ast_hash": "f112eba429c450360a85fbf064aecf2e",
+    "semantic_hash": "f112eba429c450360a85fbf064aecf2e"
+  },
+  "C:\\Users\\wapzi\\Desktop\\Programmation\\Java\\ItFollows\\src\\main\\java\\io\\github\\yutoutcourt\\itfollows\\mixin\\PlayerSleepTimerMixin.java": {
+    "mtime": 1781690355.4499774,
+    "ast_hash": "0b923febb831ff38aff66572eed3f28b",
+    "semantic_hash": "0b923febb831ff38aff66572eed3f28b"
+  },
+  "C:\\Users\\wapzi\\Desktop\\Programmation\\Java\\ItFollows\\src\\main\\java\\io\\github\\yutoutcourt\\itfollows\\mixin\\ServerPlayerNapMixin.java": {
+    "mtime": 1781689361.1198945,
+    "ast_hash": "41b679fca6ec7f63681ebf043ad1f0c1",
+    "semantic_hash": "41b679fca6ec7f63681ebf043ad1f0c1"
+  },
+  "C:\\Users\\wapzi\\Desktop\\Programmation\\Java\\ItFollows\\src\\main\\java\\io\\github\\yutoutcourt\\itfollows\\net\\ItFollowsNetworking.java": {
+    "mtime": 1781684457.1189518,
+    "ast_hash": "4b21fada74d5524104d0ca1ebfae160f",
+    "semantic_hash": "4b21fada74d5524104d0ca1ebfae160f"
+  },
+  "C:\\Users\\wapzi\\Desktop\\Programmation\\Java\\ItFollows\\src\\main\\java\\io\\github\\yutoutcourt\\itfollows\\sieste\\NapStarter.java": {
+    "mtime": 1781689355.614785,
+    "ast_hash": "dd31c91c27512840191f2f385e8e6e2d",
+    "semantic_hash": "dd31c91c27512840191f2f385e8e6e2d"
+  },
+  "C:\\Users\\wapzi\\Desktop\\Programmation\\Java\\ItFollows\\src\\main\\java\\io\\github\\yutoutcourt\\itfollows\\sieste\\SiesteManager.java": {
+    "mtime": 1781690368.4165218,
+    "ast_hash": "5100d920dd84ef924264846fd316f5d9",
+    "semantic_hash": "5100d920dd84ef924264846fd316f5d9"
+  },
+  "C:\\Users\\wapzi\\Desktop\\Programmation\\Java\\ItFollows\\src\\main\\resources\\fabric.mod.json": {
+    "mtime": 1781682960.711191,
+    "ast_hash": "1480456de99684129fb93eae4a20ae5e",
+    "semantic_hash": "1480456de99684129fb93eae4a20ae5e"
+  },
+  "C:\\Users\\wapzi\\Desktop\\Programmation\\Java\\ItFollows\\src\\main\\resources\\itfollows.mixins.json": {
+    "mtime": 1781689369.6853375,
+    "ast_hash": "17bead07c9f33b77da40fbe2bc8a4e4d",
+    "semantic_hash": "17bead07c9f33b77da40fbe2bc8a4e4d"
+  },
+  "C:\\Users\\wapzi\\Desktop\\Programmation\\Java\\ItFollows\\LICENSE.txt": {
+    "mtime": 1781682953.745728,
+    "ast_hash": "a5a06d72049abee1691eaaeef7678574",
+    "semantic_hash": "a5a06d72049abee1691eaaeef7678574"
+  },
+  "C:\\Users\\wapzi\\Desktop\\Programmation\\Java\\ItFollows\\cahier.md": {
+    "mtime": 1781687137.2686543,
+    "ast_hash": "5a10075a734bef4be0ee6f6ec18862d5",
+    "semantic_hash": "5a10075a734bef4be0ee6f6ec18862d5"
+  }
+}

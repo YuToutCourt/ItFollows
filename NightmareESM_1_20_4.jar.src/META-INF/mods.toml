@@ -1,0 +1,16 @@
+modLoader="javafml"
+loaderVersion="[41,)"
+license="All rights reserved"
+#issueTrackerURL="github.com/MinecraftForge/MinecraftForge/issues"
+#showAsResourcePack=false
+
+[[mods]]
+    modId="nightmareinminecraft"
+    version="1.0.0.0"
+    displayName="Nightmare in Minecraft"
+    credits=""
+    authors=""
+    description='''
+    '''
+    #displayTest="MATCH_VERSION"
+    

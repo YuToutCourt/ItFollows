@@ -1,0 +1,36 @@
+{
+  "schemaVersion": 1,
+  "id": "itfollows",
+  "version": "${version}",
+  "name": "ItFollows",
+  "description": "",
+  "authors": [],
+  "contact": {},
+  "license": "All-Rights-Reserved",
+  "icon": "assets/itfollows/icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "fabric-datagen": [
+      "io.github.yutoutcourt.itfollows.client.ItfollowsDataGenerator"
+    ],
+    "client": [
+      "io.github.yutoutcourt.itfollows.client.ItfollowsClient"
+    ],
+    "main": [
+      "io.github.yutoutcourt.itfollows.Itfollows"
+    ]
+  },
+  "mixins": [
+    "itfollows.mixins.json",
+    {
+      "config": "itfollows.client.mixins.json",
+      "environment": "client"
+    }
+  ],
+  "depends": {
+    "fabricloader": ">=${loader_version}",
+    "fabric-api": "*",
+    "minecraft": "${minecraft_version}",
+    "geckolib": ">=4.4"
+  }
+}
