@@ -2,6 +2,7 @@ package io.github.yutoutcourt.itfollows;
 
 import io.github.yutoutcourt.itfollows.command.ItFollowsCommand;
 import io.github.yutoutcourt.itfollows.config.ItFollowsConfig;
+import io.github.yutoutcourt.itfollows.curse.CurseManager;
 import io.github.yutoutcourt.itfollows.fatigue.FaintManager;
 import io.github.yutoutcourt.itfollows.fatigue.FatigueManager;
 import io.github.yutoutcourt.itfollows.entity.ModEntities;
@@ -50,9 +51,13 @@ public class Itfollows implements ModInitializer {
             }
         });
 
+        // Phase 3 : malédiction (assignation différée, détection, transfert + re-ciblage).
+        CurseManager.register();
+        ServerTickEvents.END_SERVER_TICK.register(CurseManager::tick);
+
         CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess, environment) ->
                 ItFollowsCommand.register(dispatcher));
 
-        LOGGER.info("[ItFollows] Initialisé (Phase 0 + Phase 1 : fatigue, Phase 2 : traque).");
+        LOGGER.info("[ItFollows] Initialisé (Phase 0 + Phase 1 : fatigue, Phase 2 : traque, Phase 3 : malédiction).");
     }
 }

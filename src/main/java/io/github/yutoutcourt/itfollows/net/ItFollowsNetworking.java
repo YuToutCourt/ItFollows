@@ -25,6 +25,22 @@ public final class ItFollowsNetworking {
     public static final ResourceLocation FAINT_SYNC =
             new ResourceLocation(Itfollows.MOD_ID, "faint_sync");
 
+    /** Canal S2C : statut de malédiction du joueur local. Payload = boolean. */
+    public static final ResourceLocation CURSE_SYNC =
+            new ResourceLocation(Itfollows.MOD_ID, "curse_sync");
+
+    /** Canal S2C : texte de l'objectif de malédiction (livraison + rappel). Payload = String. */
+    public static final ResourceLocation CURSE_OBJECTIVE =
+            new ResourceLocation(Itfollows.MOD_ID, "curse_objective");
+
+    /** Canal S2C : avancement de l'action (UUID victime + pourcentage), pour l'indicateur. */
+    public static final ResourceLocation CURSE_PROGRESS =
+            new ResourceLocation(Itfollows.MOD_ID, "curse_progress");
+
+    /** Canal S2C : action accomplie ! (retour visuel/sonore de réussite chez le maudit). Payload = String (nom victime). */
+    public static final ResourceLocation CURSE_RESULT =
+            new ResourceLocation(Itfollows.MOD_ID, "curse_result");
+
     private ItFollowsNetworking() {
     }
 
@@ -44,6 +60,35 @@ public final class ItFollowsNetworking {
         FriendlyByteBuf buf = PacketByteBufs.create();
         buf.writeBoolean(fainted);
         ServerPlayNetworking.send(player, FAINT_SYNC, buf);
+    }
+
+    /** Signale au joueur s'il est maudit (overlay client on/off). */
+    public static void sendCurse(ServerPlayer player, boolean cursed) {
+        FriendlyByteBuf buf = PacketByteBufs.create();
+        buf.writeBoolean(cursed);
+        ServerPlayNetworking.send(player, CURSE_SYNC, buf);
+    }
+
+    /** Livre/rappelle le texte de l'objectif de malédiction au maudit. */
+    public static void sendCurseObjective(ServerPlayer player, String text) {
+        FriendlyByteBuf buf = PacketByteBufs.create();
+        buf.writeUtf(text);
+        ServerPlayNetworking.send(player, CURSE_OBJECTIVE, buf);
+    }
+
+    /** Envoie l'avancement de l'action courante (UUID de la victime + pourcentage 0-100). */
+    public static void sendCurseProgress(ServerPlayer player, java.util.UUID victim, int percent) {
+        FriendlyByteBuf buf = PacketByteBufs.create();
+        buf.writeUUID(victim);
+        buf.writeVarInt(percent);
+        ServerPlayNetworking.send(player, CURSE_PROGRESS, buf);
+    }
+
+    /** Signale au maudit que son action est accomplie (déclenche la bannière + le son de réussite). */
+    public static void sendCurseResult(ServerPlayer player, String victimName) {
+        FriendlyByteBuf buf = PacketByteBufs.create();
+        buf.writeUtf(victimName);
+        ServerPlayNetworking.send(player, CURSE_RESULT, buf);
     }
 
     /**

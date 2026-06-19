@@ -226,6 +226,25 @@ public final class HauntController {
     }
 
     /**
+     * Transfert de malédiction (Phase 3) : bascule la traque sur {@code victim} sans rejouer toute
+     * l'escalade (la victime est déjà « prise »). Réamorce la poursuite derrière elle, retire
+     * l'entité courante (re-spawn près de la victime), et réhorodate HUNTING — ce qui relance le
+     * compte des 10 min avant la livraison de SON objectif (cf. {@code CurseManager}).
+     */
+    public static void transferTarget(MinecraftServer server, ServerPlayer victim) {
+        ItFollowsConfig config = ItFollowsConfig.get();
+        StalkTrackerState state = StalkTrackerState.get(server);
+        forced = false;
+        state.setLastVictim(null);
+        state.setTargetPlayer(victim.getUUID());
+        despawn(server);
+        Vec3 behind = behindTarget(victim, materializeDistance(server, config));
+        state.setVirtual(behind, victim.level().dimension());
+        beginPhase(server, state, HauntPhase.HUNTING);
+        spawn(server, state, victim, behind, false, config);
+    }
+
+    /**
      * À appeler quand un joueur meurt (event {@code AFTER_DEATH}). Si c'était la cible traquée,
      * on la mémorise comme dernière victime, on efface la cible et on retire l'entité : le prochain
      * échantillonnage choisira quelqu'un d'autre (cf. {@link TargetSelector#chooseTarget}).

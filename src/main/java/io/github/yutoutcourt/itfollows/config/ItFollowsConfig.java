@@ -234,6 +234,60 @@ public class ItFollowsConfig {
     /** Volume de la voix « LOOK BEHIND YOU » (0-1). */
     public float lookBehindVolume = 1.0f;
 
+    // --- Phase 3 : malédiction & transfert ---
+    /** Active le système de malédiction. */
+    public boolean curseEnabled = true;
+    /** Délai (ticks) après l'entrée en HUNTING avant la livraison de l'objectif au maudit. 12000 = 10 min. */
+    public int curseObjectiveDelayTicks = 12000;
+    /** Intervalle (ticks) entre deux passes de détection des actions de malédiction. 10 = 0,5 s. */
+    public int curseSampleIntervalTicks = 10;
+    /** Délai (ticks) pendant lequel le nouveau maudit ne peut pas re-maudire celui qui vient de le maudire. 1200 = 1 min. */
+    public int curseAntiPingPongTicks = 0;
+    /** Nombre d'actions récentes mémorisées pour éviter de retomber sur les mêmes (anti-répétition). */
+    public int curseRecentMemory = 5;
+    /** Intervalle (ticks) de rappel de l'objectif en barre d'action tant que l'action est active. 40 = 2 s. */
+    public int curseReminderIntervalTicks = 40;
+    /** Portée (blocs) générique « près de la cible » pour la plupart des actions. */
+    public float curseProximityRange = 6.0f;
+    /** Demi-angle (degrés) du cône de regard pour « fixer » la cible. */
+    public float curseLookConeDegrees = 7.0f;
+    /** Durée (ticks) de regard cumulé pour « Le regard ». 240 = 12 s. */
+    public int curseStareTicks = 240;
+    /** Durée (ticks) de suivi continu pour « L'ombre ». 600 = 30 s. */
+    public int curseFollowTicks = 600;
+    /** Tolérance (ticks) de décrochage avant reset du suivi/immobilité. 60 = 3 s. */
+    public int curseBreakGraceTicks = 60;
+    /** Durée (ticks) de l'immobilité fixe pour « Le planté ». 300 = 15 s. */
+    public int cursePlanteTicks = 300;
+    /** Durée (ticks) de miroir de posture/mouvement pour mime/imitateur. 200 = 10 s. */
+    public int curseMimicTicks = 200;
+    /** Nombre de bascules d'accroupissement pour « Le sneak rituel ». */
+    public int curseSneakCount = 5;
+    /** Nombre de cycles accroupi/relevé rapides pour « Le yo-yo ». */
+    public int curseYoyoCount = 8;
+    /** Nombre de sauts pour « Le métronome ». */
+    public int curseJumpCount = 6;
+    /** Nombre d'items à gaspiller (lave/vide) pour « Le sacrifice ». */
+    public int curseSacrificeCount = 8;
+    /** Nombre d'items à déposer au sol pour « L'autel ». */
+    public int curseAltarCount = 5;
+    /** Profondeur (blocs) à creuser pour « Le fossoyeur ». */
+    public int curseGraveDepth = 2;
+    /** Longueur (blocs) du tunnel/escalier pour « Le tunnelier ». */
+    public int curseTunnelLength = 5;
+    /** Hauteur (blocs) du pilier pour « Le bâtisseur ». */
+    public int curseTowerHeight = 5;
+    /** Nombre de feux/feux de camp pour « Le pyromane ». */
+    public int curseFireCount = 3;
+    /** Nombre de blocs-signature en cercle pour « L'encerclement ». */
+    public int curseRingCount = 4;
+    /** Nombre de côtés à boucher pour « Le geôlier ». */
+    public int curseCageSides = 3;
+    /** Durée (ticks) dans le noir à proximité pour « Le veilleur nocturne ». 160 = 8 s. */
+    public int curseDarkTicks = 160;
+    /** Durée (ticks) près de la cible endormie pour « Le veilleur de sommeil ». 120 = 6 s. */
+    public int curseSleepWatchTicks = 120;
+
     public static ItFollowsConfig get() {
         if (instance == null) {
             instance = load();

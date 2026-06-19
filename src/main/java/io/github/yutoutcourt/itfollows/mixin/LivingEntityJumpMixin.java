@@ -1,5 +1,6 @@
 package io.github.yutoutcourt.itfollows.mixin;
 
+import io.github.yutoutcourt.itfollows.curse.CurseManager;
 import io.github.yutoutcourt.itfollows.fatigue.FatigueManager;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.LivingEntity;
@@ -19,6 +20,7 @@ public class LivingEntityJumpMixin {
     private void itfollows$onJump(CallbackInfo ci) {
         if (((Object) this) instanceof ServerPlayer serverPlayer) {
             FatigueManager.onJump(serverPlayer);
+            CurseManager.onCurserJump(serverPlayer);
         }
     }
 }

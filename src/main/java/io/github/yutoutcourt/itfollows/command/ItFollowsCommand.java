@@ -6,6 +6,7 @@ import com.mojang.brigadier.arguments.StringArgumentType;
 import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.suggestion.SuggestionProvider;
 import io.github.yutoutcourt.itfollows.config.ItFollowsConfig;
+import io.github.yutoutcourt.itfollows.curse.CurseManager;
 import io.github.yutoutcourt.itfollows.entity.StalkerEntity;
 import io.github.yutoutcourt.itfollows.fatigue.FatigueManager;
 import io.github.yutoutcourt.itfollows.tracking.HauntController;
@@ -35,6 +36,10 @@ public final class ItFollowsCommand {
             SharedSuggestionProvider.suggest(
                     Arrays.stream(HauntPhase.values()).map(p -> p.name().toLowerCase(Locale.ROOT)),
                     builder);
+
+    /** Auto-complétion des ids d'actions de malédiction pour {@code /itfollows curse action ...}. */
+    private static final SuggestionProvider<CommandSourceStack> CURSE_ACTION_SUGGESTIONS = (ctx, builder) ->
+            SharedSuggestionProvider.suggest(CurseManager.actionIds(), builder);
 
     private ItFollowsCommand() {
     }
@@ -82,7 +87,60 @@ public final class ItFollowsCommand {
                         .then(Commands.literal("despawn")
                                 .executes(ItFollowsCommand::despawnStalker))
                         .then(Commands.literal("status")
-                                .executes(ItFollowsCommand::stalkerStatus))));
+                                .executes(ItFollowsCommand::stalkerStatus)))
+                .then(Commands.literal("curse")
+                        .then(Commands.literal("set")
+                                .then(Commands.argument("player", EntityArgument.player())
+                                        .executes(ctx -> curseSet(ctx, EntityArgument.getPlayer(ctx, "player")))))
+                        .then(Commands.literal("remove")
+                                .then(Commands.argument("player", EntityArgument.player())
+                                        .executes(ctx -> curseRemove(ctx, EntityArgument.getPlayer(ctx, "player")))))
+                        .then(Commands.literal("action")
+                                .then(Commands.argument("player", EntityArgument.player())
+                                        .then(Commands.argument("id", StringArgumentType.word())
+                                                .suggests(CURSE_ACTION_SUGGESTIONS)
+                                                .executes(ctx -> curseAction(ctx,
+                                                        EntityArgument.getPlayer(ctx, "player"),
+                                                        StringArgumentType.getString(ctx, "id"))))))
+                        .then(Commands.literal("status")
+                                .executes(ctx -> curseStatus(ctx, ctx.getSource().getPlayerOrException()))
+                                .then(Commands.argument("player", EntityArgument.player())
+                                        .executes(ctx -> curseStatus(ctx, EntityArgument.getPlayer(ctx, "player")))))));
+    }
+
+    // --- Phase 3 : malédiction ---
+
+    private static int curseSet(CommandContext<CommandSourceStack> ctx, ServerPlayer player) {
+        CurseManager.debugCurse(ctx.getSource().getServer(), player);
+        ctx.getSource().sendSuccess(() -> Component.literal(
+                player.getName().getString() + " est maintenant maudit(e)."), true);
+        return 1;
+    }
+
+    private static int curseRemove(CommandContext<CommandSourceStack> ctx, ServerPlayer player) {
+        CurseManager.debugRemove(ctx.getSource().getServer(), player);
+        ctx.getSource().sendSuccess(() -> Component.literal(
+                "Malédiction levée pour " + player.getName().getString() + "."), true);
+        return 1;
+    }
+
+    private static int curseAction(CommandContext<CommandSourceStack> ctx, ServerPlayer player, String id) {
+        boolean ok = CurseManager.debugAssign(ctx.getSource().getServer(), player, id);
+        if (!ok) {
+            ctx.getSource().sendFailure(Component.literal(
+                    "Échec : action « " + id + " » inconnue, ou aucune victime éligible (autre joueur requis). "
+                            + "Voir les logs serveur pour le détail."));
+            return 0;
+        }
+        ctx.getSource().sendSuccess(() -> Component.literal(
+                "Action « " + id + " » assignée à " + player.getName().getString() + "."), true);
+        return 1;
+    }
+
+    private static int curseStatus(CommandContext<CommandSourceStack> ctx, ServerPlayer player) {
+        String status = CurseManager.describeStatus(ctx.getSource().getServer(), player);
+        ctx.getSource().sendSuccess(() -> Component.literal(status), false);
+        return 1;
     }
 
     private static int getFatigue(CommandContext<CommandSourceStack> ctx, ServerPlayer player) {
