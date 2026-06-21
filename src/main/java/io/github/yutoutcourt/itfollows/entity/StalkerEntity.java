@@ -3,6 +3,8 @@ package io.github.yutoutcourt.itfollows.entity;
 import io.github.yutoutcourt.itfollows.config.ItFollowsConfig;
 import io.github.yutoutcourt.itfollows.entity.ai.StalkerChaseGoal;
 import io.github.yutoutcourt.itfollows.entity.ai.StalkerMoveControl;
+import io.github.yutoutcourt.itfollows.net.ItFollowsNetworking;
+import io.github.yutoutcourt.itfollows.sound.ModSounds;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -31,7 +33,6 @@ import software.bernie.geckolib.core.animation.RawAnimation;
 import software.bernie.geckolib.core.object.PlayState;
 import software.bernie.geckolib.util.GeckoLibUtil;
 
-import java.util.Objects;
 import java.util.UUID;
 
 /**
@@ -53,20 +54,35 @@ import java.util.UUID;
  */
 public class StalkerEntity extends PathfinderMob implements GeoEntity {
 
-    // --- Animations GeckoLib (assets/itfollows/animations/stalker.animation.json) ---
-    private static final RawAnimation IDLE = RawAnimation.begin().thenLoop("animation.monstre.idle");
-    private static final RawAnimation WALK = RawAnimation.begin().thenLoop("animation.monstre.walk");
-    private static final RawAnimation HOVER = RawAnimation.begin().thenLoop("animation.monstre.hover");
-    private static final RawAnimation FLY = RawAnimation.begin().thenLoop("animation.monstre.fly_chase");
-    private static final RawAnimation DEPLOY = RawAnimation.begin().thenPlay("animation.monstre.wing_deploy");
-    /** Vitesse horizontale² au-delà de laquelle le vol passe en poursuite (sinon vol stationnaire). */
-    private static final double FLY_CHASE_SPEED_SQR = 0.02;
+    // --- Animations GeckoLib (assets/itfollows/animations/toww_geckolib.animation.json) ---
+    private static final RawAnimation IDLE = RawAnimation.begin().thenLoop("animation.TOWWGeckolib.pose1");
+    private static final RawAnimation WALK = RawAnimation.begin().thenLoop("animation.TOWWGeckolib.walk");
+    private static final RawAnimation CHASE = RawAnimation.begin().thenLoop("animation.TOWWGeckolib.chase");
+    /**
+     * Poses statiques (étape 3 « silhouette » + révélation) : l'entité-leurre prend l'une de ces postures
+     * figées en fixant le joueur. Indexées par {@link #POSE} (0..5).
+     */
+    private static final RawAnimation[] POSES = {
+            RawAnimation.begin().thenPlayAndHold("animation.TOWWGeckolib.pose1"),
+            RawAnimation.begin().thenPlayAndHold("animation.TOWWGeckolib.pose2"),
+            RawAnimation.begin().thenPlayAndHold("animation.TOWWGeckolib.pose3"),
+            RawAnimation.begin().thenPlayAndHold("animation.TOWWGeckolib.pose4"),
+            RawAnimation.begin().thenPlayAndHold("animation.TOWWGeckolib.pose5"),
+            RawAnimation.begin().thenPlayAndHold("animation.TOWWGeckolib.pose6"),
+    };
 
     private final AnimatableInstanceCache geoCache = GeckoLibUtil.createInstanceCache(this);
 
     /** Synchronisé au client pour piloter l'animation de vol (ailes). */
     private static final EntityDataAccessor<Boolean> FLYING =
             SynchedEntityData.defineId(StalkerEntity.class, EntityDataSerializers.BOOLEAN);
+
+    /**
+     * Synchronisé au client : index de la pose figée jouée en mode leurre (silhouette / révélation),
+     * dans {@code [0, POSES.length)}. {@code -1} = pas de pose imposée (entité normale : idle/marche/poursuite).
+     */
+    private static final EntityDataAccessor<Integer> POSE =
+            SynchedEntityData.defineId(StalkerEntity.class, EntityDataSerializers.INT);
 
     /** Distance² (blocs²) sous laquelle l'entité frappe la cible. 4 = 2 blocs. */
     private static final double ATTACK_RANGE_SQR = 4.0;
@@ -116,6 +132,7 @@ public class StalkerEntity extends PathfinderMob implements GeoEntity {
     protected void defineSynchedData() {
         super.defineSynchedData();
         this.entityData.define(FLYING, false);
+        this.entityData.define(POSE, -1);
     }
 
     /**
@@ -160,6 +177,9 @@ public class StalkerEntity extends PathfinderMob implements GeoEntity {
     public void setDecoy(boolean decoy) {
         this.decoy = decoy;
         this.setNoAi(decoy);
+        // En leurre : on tire une pose figée aléatoire (chaque flash de silhouette / révélation diffère).
+        // Hors leurre : pas de pose imposée, le contrôleur d'anim reprend idle/marche/poursuite.
+        this.entityData.set(POSE, decoy ? this.random.nextInt(POSES.length) : -1);
     }
 
     /** Résout la cible si elle est en ligne et dans la même dimension que l'entité, sinon {@code null}. */
@@ -182,9 +202,8 @@ public class StalkerEntity extends PathfinderMob implements GeoEntity {
     }
 
     /**
-     * Active/désactive le mode vol. Au décollage : coupe la gravité et joue le déploiement des ailes
-     * (synchronisé vers le client traqueur). À l'atterrissage : rétablit la gravité et purge l'élan
-     * vertical résiduel pour ne pas « rebondir ». Idempotent.
+     * Active/désactive le mode vol. Au décollage : coupe la gravité. À l'atterrissage : rétablit la
+     * gravité et purge l'élan vertical résiduel pour ne pas « rebondir ». Idempotent.
      */
     public void setFlyingMode(boolean fly) {
         if (this.isFlying() == fly) {
@@ -192,9 +211,7 @@ public class StalkerEntity extends PathfinderMob implements GeoEntity {
         }
         this.entityData.set(FLYING, fly);
         this.setNoGravity(fly);
-        if (fly) {
-            this.triggerAnim("main", "deploy");
-        } else {
+        if (!fly) {
             this.setDeltaMovement(this.getDeltaMovement().multiply(1.0, 0.0, 1.0));
         }
     }
@@ -245,7 +262,9 @@ public class StalkerEntity extends PathfinderMob implements GeoEntity {
         }
 
         // Un leurre ne frappe jamais : il n'est là que pour être vu/visé (silhouette, « LOOK BEHIND YOU »).
+        // Même planté (NoAi), il pivote chaque tick pour fixer en permanence le joueur traqué.
         if (this.decoy) {
+            faceTarget();
             return;
         }
 
@@ -255,8 +274,34 @@ public class StalkerEntity extends PathfinderMob implements GeoEntity {
             if (attackCooldown == 0 && distSqr < ATTACK_RANGE_SQR) {
                 this.doHurtTarget(target);
                 attackCooldown = ATTACK_COOLDOWN;
+                // Rarement, un éclat de panique dans sa voix, audible de la seule cible (depuis sa position).
+                if (this.random.nextFloat() < 0.3f) {
+                    ItFollowsNetworking.playSoundTo(target, ModSounds.ENTITY_PANIC,
+                            this.getX(), this.getEyeY(), this.getZ(), 1.0f, 1.0f);
+                }
             }
         }
+    }
+
+    /**
+     * Oriente le leurre (corps + tête) vers le joueur traqué, à l'horizontale. Appelé chaque tick en mode
+     * leurre pour qu'il « fixe » la cible où qu'elle aille, même immobile (silhouette + révélation).
+     */
+    private void faceTarget() {
+        ServerPlayer target = resolveTarget();
+        if (target == null) {
+            return;
+        }
+        double dx = target.getX() - this.getX();
+        double dz = target.getZ() - this.getZ();
+        float yaw = (float) (Mth.atan2(dz, dx) * (180.0 / Math.PI)) - 90.0f;
+        this.setYRot(yaw);
+        this.setYBodyRot(yaw);
+        this.setYHeadRot(yaw);
+        // yRotO/yBodyRotO évitent l'interpolation visible d'un grand pivot entre deux ticks.
+        this.yRotO = yaw;
+        this.yBodyRotO = yaw;
+        this.yHeadRotO = yaw;
     }
 
     // --- Physique de déplacement : eau/lave (pattern Axolotl), vol 3D, sinon marche vanilla ---
@@ -359,14 +404,17 @@ public class StalkerEntity extends PathfinderMob implements GeoEntity {
 
     @Override
     public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
-        controllers.add(new AnimationController<>(this, "main", 5, this::animateMain)
-                .triggerableAnim("deploy", DEPLOY));
+        controllers.add(new AnimationController<>(this, "main", 5, this::animateMain));
     }
 
     private PlayState animateMain(AnimationState<StalkerEntity> state) {
-        if (this.isFlying()) {
-            boolean chasing = this.getDeltaMovement().horizontalDistanceSqr() > FLY_CHASE_SPEED_SQR;
-            state.setAnimation(chasing ? FLY : HOVER);
+        // Mode leurre : pose figée imposée (silhouette / révélation), prioritaire sur tout le reste.
+        int pose = this.entityData.get(POSE);
+        if (pose >= 0 && pose < POSES.length) {
+            state.setAnimation(POSES[pose]);
+        } else if (this.isFlying()) {
+            // Pas d'animation de vol dédiée dans le nouveau modèle : on réutilise la poursuite.
+            state.setAnimation(CHASE);
         } else if (state.isMoving()) {
             state.setAnimation(WALK);
         } else {

@@ -394,6 +394,18 @@ public class ItFollowsConfig {
     /** Amplitude max du screen shake (degrés). */
     public float presenceShakeMaxDegrees = 0.5f;
 
+    // --- Options d'affichage HUD Fatigue ---
+    /** Style de la jauge : "BATTERY_VERTICAL" (par défaut), "BATTERY_HORIZONTAL", "BUBBLE" */
+    public String fatigueHudStyle = "BATTERY_VERTICAL";
+    /** Alignement horizontal de la jauge : "CENTER" (par défaut), "LEFT_OF_HUNGER", "RIGHT_OF_HEARTS", "ABOVE_HUNGER" */
+    public String fatigueHudXAlignment = "CENTER";
+    /** Décalage horizontal en pixels. */
+    public int fatigueHudOffsetX = 0;
+    /** Décalage vertical en pixels. */
+    public int fatigueHudOffsetY = 0;
+    /** Affiche ou non le pourcentage de fatigue sous forme de texte. */
+    public boolean fatigueHudShowPercent = true;
+
     public static ItFollowsConfig get() {
         if (instance == null) {
             instance = load();

@@ -38,6 +38,18 @@ public final class ModSounds {
     /** Respiration lente/oppressante perçue près du lit pendant le sommeil profond. */
     public static SoundEvent SLEEP_BREATH;
 
+    // --- Voix de l'entité (lignes Fiddlesticks fournies par .ogg ; plusieurs variantes possibles). ---
+    /** Fausse réassurance chuchotée pendant les flashs de silhouette (étape 3) : « ce n'est qu'un épouvantail… ». */
+    public static SoundEvent SILHOUETTE_WHISPER;
+    /** Appât chuchoté pendant l'attente de la révélation, tant que la cible n'a pas regardé le leurre : « approche… ». */
+    public static SoundEvent REVEAL_LURE;
+    /** Éclat de panique de l'entité au moment où elle frappe sa cible (rare). */
+    public static SoundEvent ENTITY_PANIC;
+    /** Joué à l'ancien maudit, soulagé, quand sa malédiction part vers une autre victime. */
+    public static SoundEvent CURSE_PASSED;
+    /** Joué à la nouvelle victime au moment où la malédiction lui est transmise (présage menaçant). */
+    public static SoundEvent CURSE_RECEIVED;
+
     private ModSounds() {
     }
 
@@ -48,6 +60,11 @@ public final class ModSounds {
         HUNTING_CRY = create("hunting_cry");
         RADIO_STATIC = create("radio_static");
         SLEEP_BREATH = create("sleep_breath");
+        SILHOUETTE_WHISPER = create("silhouette_whisper");
+        REVEAL_LURE = create("reveal_lure");
+        ENTITY_PANIC = create("entity_panic");
+        CURSE_PASSED = create("curse_passed");
+        CURSE_RECEIVED = create("curse_received");
     }
 
     private static SoundEvent create(String name) {

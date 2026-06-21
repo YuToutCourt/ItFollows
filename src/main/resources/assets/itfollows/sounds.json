@@ -33,5 +33,44 @@
     "sounds": [
       "itfollows:sleep_breath"
     ]
+  },
+  "silhouette_whisper": {
+    "category": "hostile",
+    "subtitle": "subtitles.itfollows.silhouette_whisper",
+    "sounds": [
+      "itfollows:silhouette_whisper_1",
+      "itfollows:silhouette_whisper_2"
+    ]
+  },
+  "reveal_lure": {
+    "category": "hostile",
+    "subtitle": "subtitles.itfollows.reveal_lure",
+    "sounds": [
+      "itfollows:reveal_lure_1",
+      "itfollows:reveal_lure_2"
+    ]
+  },
+  "entity_panic": {
+    "category": "hostile",
+    "subtitle": "subtitles.itfollows.entity_panic",
+    "sounds": [
+      "itfollows:entity_panic_1",
+      "itfollows:entity_panic_2",
+      "itfollows:entity_panic_3"
+    ]
+  },
+  "curse_passed": {
+    "category": "hostile",
+    "subtitle": "subtitles.itfollows.curse_passed",
+    "sounds": [
+      "itfollows:curse_passed"
+    ]
+  },
+  "curse_received": {
+    "category": "hostile",
+    "subtitle": "subtitles.itfollows.curse_received",
+    "sounds": [
+      "itfollows:curse_received"
+    ]
   }
 }

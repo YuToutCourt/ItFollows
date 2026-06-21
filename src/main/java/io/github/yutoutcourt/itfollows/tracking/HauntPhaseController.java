@@ -4,7 +4,11 @@ import io.github.yutoutcourt.itfollows.config.ItFollowsConfig;
 import io.github.yutoutcourt.itfollows.entity.StalkerEntity;
 import io.github.yutoutcourt.itfollows.net.ItFollowsNetworking;
 import io.github.yutoutcourt.itfollows.sound.ModSounds;
+import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.protocol.game.ClientboundSetTitleTextPacket;
+import net.minecraft.network.protocol.game.ClientboundSetTitlesAnimationPacket;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
@@ -200,6 +204,11 @@ public final class HauntPhaseController {
         StalkerEntity decoy = HauntController.spawn(server, state, target, pos, true, config);
         if (decoy != null) {
             silhouetteRemoveAt = now + config.hauntSilhouetteDurationTicks;
+            // Une fois sur deux, la silhouette « ment » : voix de fausse réassurance, depuis sa position.
+            if (random.nextBoolean()) {
+                ItFollowsNetworking.playSoundTo(target, ModSounds.SILHOUETTE_WHISPER,
+                        decoy.getX(), decoy.getEyeY(), decoy.getZ(), config.lookBehindVolume, 1.0f);
+            }
         } else {
             // Échec de spawn (chunk non chargé ?) : on retente bientôt.
             nextEventTime = now + 20L;
@@ -224,8 +233,12 @@ public final class HauntPhaseController {
             // Voix jouée DERRIÈRE la cible (à la position du leurre) : « regarde derrière toi ».
             ItFollowsNetworking.playSoundTo(target, ModSounds.LOOK_BEHIND_YOU,
                     decoy.getX(), decoy.getEyeY(), decoy.getZ(), config.lookBehindVolume, 1.0f);
+            // Avertissement visuel rouge plein écran : « Look behind you ».
+            warnLookBehind(target);
             revealSpawned = true;
             lookHoldTicks = 0;
+            // Premier appât chuchoté différé (laisse respirer la voix « regarde derrière toi »).
+            nextEventTime = now + 60L;
             return;
         }
 
@@ -234,6 +247,13 @@ public final class HauntPhaseController {
             // Leurre perdu (déchargement…) : on le refera apparaître.
             revealSpawned = false;
             return;
+        }
+
+        // Tant que la cible n'a pas regardé : appât chuchoté périodique depuis le leurre (« approche… »).
+        if (now >= nextEventTime) {
+            ItFollowsNetworking.playSoundTo(target, ModSounds.REVEAL_LURE,
+                    decoy.getX(), decoy.getEyeY(), decoy.getZ(), config.lookBehindVolume, 1.0f);
+            nextEventTime = now + 60L + target.getRandom().nextInt(60);
         }
 
         if (isLookingAt(target, decoy, config)) {
@@ -253,6 +273,17 @@ public final class HauntPhaseController {
         } else {
             lookHoldTicks = 0;
         }
+    }
+
+    /**
+     * Affiche l'avertissement rouge « Look behind you » plein écran (titre) chez la seule cible, en écho
+     * à la voix de la révélation. Réglé court : il doit alarmer sans masquer durablement la vue.
+     */
+    private static void warnLookBehind(ServerPlayer target) {
+        Component message = Component.literal("Look behind you").withStyle(ChatFormatting.RED, ChatFormatting.BOLD);
+        // fadeIn 5 / stay 40 / fadeOut 15 ticks.
+        target.connection.send(new ClientboundSetTitlesAnimationPacket(5, 40, 15));
+        target.connection.send(new ClientboundSetTitleTextPacket(message));
     }
 
     /** La cible vise-t-elle le leurre ? Raycast du regard contre la boîte englobante (légèrement gonflée). */

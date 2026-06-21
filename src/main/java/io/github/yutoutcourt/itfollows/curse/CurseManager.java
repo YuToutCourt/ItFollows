@@ -3,6 +3,7 @@ package io.github.yutoutcourt.itfollows.curse;
 import io.github.yutoutcourt.itfollows.Itfollows;
 import io.github.yutoutcourt.itfollows.config.ItFollowsConfig;
 import io.github.yutoutcourt.itfollows.net.ItFollowsNetworking;
+import io.github.yutoutcourt.itfollows.sound.ModSounds;
 import io.github.yutoutcourt.itfollows.tracking.HauntController;
 import io.github.yutoutcourt.itfollows.tracking.HauntPhase;
 import io.github.yutoutcourt.itfollows.tracking.StalkTrackerState;
@@ -269,12 +270,16 @@ public final class CurseManager {
         ItFollowsNetworking.sendCurseProgress(curser, victim.getUUID(), 100);
         ItFollowsNetworking.sendCurseResult(curser, victim.getName().getString());
 
-        // Ancien maudit libéré.
+        // Ancien maudit libéré : voix soulagée jouée pour lui seul.
         ItFollowsNetworking.sendCurse(curser, false);
         ItFollowsNetworking.sendCurseObjective(curser, "");
+        ItFollowsNetworking.playSoundTo(curser, ModSounds.CURSE_PASSED,
+                curser.getX(), curser.getEyeY(), curser.getZ(), 1.0f, 1.0f);
 
         // Nouvelle cible maudite + entité re-ciblée. Son objectif viendra 10 min après son HUNTING.
         ItFollowsNetworking.sendCurse(victim, true);
+        ItFollowsNetworking.playSoundTo(victim, ModSounds.CURSE_RECEIVED,
+                victim.getX(), victim.getEyeY(), victim.getZ(), 1.0f, 1.0f);
         HauntController.transferTarget(server, victim);
     }
 
@@ -304,25 +309,26 @@ public final class CurseManager {
 
     private static ServerPlayer pickVictim(MinecraftServer server, ServerPlayer curser, CurseData data,
                                            ItFollowsConfig config, long now) {
-        List<ServerPlayer> candidates = new ArrayList<>();
+        List<ServerPlayer> ideal = new ArrayList<>();
+        // Victimes non idéales (déjà maudites / sous anti-ping-pong) gardées en dernier recours : on
+        // préfère ne jamais bloquer la livraison de l'objectif faute de candidat « parfait ». Jamais soi-même.
+        List<ServerPlayer> fallback = new ArrayList<>();
         boolean ppActive = data.antiPingPongTarget != null && now < data.antiPingPongUntil;
         CurseState state = CurseState.get(server);
         for (ServerPlayer other : server.getPlayerList().getPlayers()) {
+            // Créatif/spectateur restent exemptés (cohérent avec le reste de la traque).
             if (other == curser || other.isCreative() || other.isSpectator()) {
                 continue;
             }
-            if (state.isCursed(other.getUUID())) {
-                continue;
-            }
-            if (ppActive && other.getUUID().equals(data.antiPingPongTarget)) {
-                continue;
-            }
-            candidates.add(other);
+            boolean nonIdeal = state.isCursed(other.getUUID())
+                    || (ppActive && other.getUUID().equals(data.antiPingPongTarget));
+            (nonIdeal ? fallback : ideal).add(other);
         }
-        if (candidates.isEmpty()) {
+        List<ServerPlayer> pool = !ideal.isEmpty() ? ideal : fallback;
+        if (pool.isEmpty()) {
             return null;
         }
-        return candidates.get(curser.getRandom().nextInt(candidates.size()));
+        return pool.get(curser.getRandom().nextInt(pool.size()));
     }
 
     /**

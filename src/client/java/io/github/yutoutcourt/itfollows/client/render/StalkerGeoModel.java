@@ -7,17 +7,17 @@ import software.bernie.geckolib.model.GeoModel;
 
 /**
  * Lie l'entité Stalker à ses ressources GeckoLib exportées depuis Blockbench :
- * géométrie ({@code geo/stalker.geo.json}), animations
- * ({@code animations/stalker.animation.json}) et texture.
+ * géométrie ({@code geo/toww_geckolib.geo.json}), animations
+ * ({@code animations/toww_geckolib.animation.json}) et texture ({@code toww_reborn.png}).
  */
 public class StalkerGeoModel extends GeoModel<StalkerEntity> {
 
     private static final ResourceLocation MODEL =
-            new ResourceLocation(Itfollows.MOD_ID, "geo/stalker.geo.json");
+            new ResourceLocation(Itfollows.MOD_ID, "geo/toww_geckolib.geo.json");
     private static final ResourceLocation TEXTURE =
-            new ResourceLocation(Itfollows.MOD_ID, "textures/entity/stalker.png");
+            new ResourceLocation(Itfollows.MOD_ID, "textures/entity/toww_reborn.png");
     private static final ResourceLocation ANIMATION =
-            new ResourceLocation(Itfollows.MOD_ID, "animations/stalker.animation.json");
+            new ResourceLocation(Itfollows.MOD_ID, "animations/toww_geckolib.animation.json");
 
     @Override
     public ResourceLocation getModelResource(StalkerEntity entity) {
