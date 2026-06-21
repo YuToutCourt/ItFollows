@@ -26,12 +26,28 @@ public final class ModSounds {
     /** Voix « LOOK BEHIND YOU » jouée au déclenchement de la révélation, derrière la cible. */
     public static SoundEvent LOOK_BEHIND_YOU;
 
+    // --- Phase 4a : effets de présence (fichiers .ogg à fournir, sinon silencieux sans crash) ---
+    /** Murmures / chuchotements (fatigue ≤ 5 % et bande entité ~10 blocs, en stéréo L/R). */
+    public static SoundEvent WHISPER;
+    /** Cri de « hunting » joué rarement quand l'entité est dans la bande lointaine (~30 blocs). */
+    public static SoundEvent HUNTING_CRY;
+    /** Parasite radio / grésillement électrique de la bande intermédiaire (~15 blocs). */
+    public static SoundEvent RADIO_STATIC;
+
+    // --- Phase 5 : audio en dormant (joué uniquement au dormeur, près du lit) ---
+    /** Respiration lente/oppressante perçue près du lit pendant le sommeil profond. */
+    public static SoundEvent SLEEP_BREATH;
+
     private ModSounds() {
     }
 
     public static void register() {
         HAUNT_DISTANT = create("haunt_distant");
         LOOK_BEHIND_YOU = create("look_behind_you");
+        WHISPER = create("whisper");
+        HUNTING_CRY = create("hunting_cry");
+        RADIO_STATIC = create("radio_static");
+        SLEEP_BREATH = create("sleep_breath");
     }
 
     private static SoundEvent create(String name) {

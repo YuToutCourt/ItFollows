@@ -49,13 +49,16 @@ public final class CurseIndicatorRenderer {
 
         var pose = context.matrixStack();
         pose.pushPose();
-        pose.translate(x - cam.x, y + victim.getBbHeight() + 0.6 - cam.y, z - cam.z);
+        // Même hauteur que la plaque de nom vanilla (bbHeight + 0.5), afin d'aligner le % avec le pseudo.
+        pose.translate(x - cam.x, y + victim.getBbHeight() + 0.5 - cam.y, z - cam.z);
         pose.mulPose(camera.rotation());
         pose.scale(-0.025f, -0.025f, 0.025f);
 
         Font font = client.font;
         String text = percent + "%";
-        float dx = -font.width(text) / 2.0f;
+        // À gauche du pseudo : on place le % juste avant le bord gauche du nom (centré), avec un petit écart.
+        float nameHalfWidth = font.width(victim.getDisplayName().getString()) / 2.0f;
+        float dx = -nameHalfWidth - 2.0f - font.width(text);
         Matrix4f matrix = pose.last().pose();
         MultiBufferSource.BufferSource buffers = client.renderBuffers().bufferSource();
         int color = colorFor(percent);

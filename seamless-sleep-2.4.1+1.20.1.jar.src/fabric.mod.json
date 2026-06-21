@@ -1,0 +1,48 @@
+{
+	"schemaVersion": 1,
+	"id": "seamlesssleep",
+	"version": "2.4.1+1.20.1",
+	"name": "Seamless Sleep",
+	"description": "Adds a smooth, cinematic transition between night and day when players sleep, with softened HUD and chat.",
+	"authors": [
+		"AquaLoco"
+	],
+	"contact": {
+		"homepage": "https://github.com/GabrielFl4",
+		"sources": "https://github.com/GabrielFl4"
+	},
+	"license": "CC0-1.0",
+	"icon": "assets/seamlesssleep/icon.png",
+	"environment": "*",
+	"entrypoints": {
+		"main": [
+			"net.aqualoco.sec.AquaSec"
+		],
+		"client": [
+			"net.aqualoco.sec.AquaSecClient"
+		],
+		"modmenu": [
+			"net.aqualoco.sec.client.ModMenuIntegration"
+		]
+	},
+	"mixins": [
+		"seamlesssleep.mixins.json"
+	],
+	"depends": {
+		"fabricloader": ">=0.14.22",
+		"minecraft": ">=1.20 <=1.20.4",
+		"java": ">=17",
+		"fabric-api": "*"
+	},
+	"suggests": {
+		"another-mod": "*"
+	},
+	"custom": {
+		"modmenu": {
+			"links": {
+				"github": "https://github.com/GabrielFl4"
+			},
+			"update_checker": false
+		}
+	}
+}

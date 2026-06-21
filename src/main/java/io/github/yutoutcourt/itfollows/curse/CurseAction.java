@@ -77,4 +77,17 @@ public interface CurseAction {
     default boolean onCurserJump(ServerPlayer curser, ServerPlayer target, CurseProgress p, ItFollowsConfig config) {
         return false;
     }
+
+    /** Le maudit a (ré)écrit le texte d'un panneau (Phase 3 : facteur). {@code text} = lignes jointes. */
+    default boolean onCurserSign(ServerPlayer curser, ServerPlayer target, BlockPos pos, String text,
+                                 CurseProgress p, ItFollowsConfig config) {
+        return false;
+    }
+
+    /** Un item jeté par le maudit a été détruit par le feu/la lave (Phase 3 : sacrifice). */
+    default boolean onCurserItemBurned(ServerPlayer curser, ServerPlayer target,
+                                       net.minecraft.world.entity.item.ItemEntity item,
+                                       CurseProgress p, ItFollowsConfig config) {
+        return false;
+    }
 }

@@ -369,6 +369,14 @@ public final class HauntController {
                 server.getPlayerList().getSimulationDistance());
     }
 
+    /**
+     * Cible actuellement traquée (en ligne, hors créatif/spectateur), ou {@code null}. Exposée pour les
+     * systèmes transverses (effets de présence) afin de réutiliser l'exemption créatif/spectateur.
+     */
+    public static ServerPlayer currentTarget(MinecraftServer server) {
+        return resolveTargetPlayer(server, StalkTrackerState.get(server));
+    }
+
     private static ServerPlayer resolveTargetPlayer(MinecraftServer server, StalkTrackerState state) {
         UUID id = state.getTargetPlayer();
         if (id == null) {
@@ -396,7 +404,7 @@ public final class HauntController {
     }
 
     /** Point derrière la cible (opposé de son regard, horizontal) à {@code distance} blocs. */
-    static Vec3 behindTarget(ServerPlayer target, double distance) {
+    public static Vec3 behindTarget(ServerPlayer target, double distance) {
         Vec3 look = target.getLookAngle();
         double horiz = Math.hypot(look.x, look.z);
         // Direction de regard projetée à l'horizontale (évite que regarder le ciel/sol écrase le décalage).

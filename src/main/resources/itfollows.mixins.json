@@ -6,12 +6,16 @@
   "mixins": [
     "BlockItemPlaceMixin",
     "ChunkMapTrackedEntityMixin",
+    "ItemEntityBurnMixin",
     "ItemEntityPickupMixin",
     "ItemEntityThrowerAccessor",
     "LivingEntityConsumeMixin",
     "LivingEntityJumpMixin",
     "PlayerSleepTimerMixin",
-    "ServerPlayerNapMixin"
+    "ServerLevelNightTransitionMixin",
+    "ServerLevelSleepInvoker",
+    "ServerPlayerNapMixin",
+    "SignUpdateMixin"
   ],
   "injectors": {
     "defaultRequire": 1

@@ -45,7 +45,7 @@ public final class CurseManager {
         ServerPlayConnectionEvents.DISCONNECT.register((handler, server) ->
                 progressByPlayer.remove(handler.player.getUUID()));
 
-        // Casse de bloc par le maudit (fossoyeur, tunnelier, chute).
+        // Casse de bloc par le maudit (fossoyeur, tunnelier).
         PlayerBlockBreakEvents.AFTER.register((world, player, pos, state, blockEntity) -> {
             if (player instanceof ServerPlayer sp) {
                 onCurserBreakBlock(sp, pos, state);
@@ -178,6 +178,16 @@ public final class CurseManager {
     public static void onVictimConsume(ServerPlayer player, ItemStack stack) {
         dispatchVictim(player, (action, curser, p, server, cfg) ->
                 action.onVictimConsume(curser, player, stack, p, cfg));
+    }
+
+    public static void onCurserSign(ServerPlayer player, BlockPos pos, String text) {
+        dispatchCurser(player, (action, target, p, server, cfg) ->
+                action.onCurserSign(player, target, pos, text, p, cfg));
+    }
+
+    public static void onCurserItemBurned(ServerPlayer thrower, net.minecraft.world.entity.item.ItemEntity item) {
+        dispatchCurser(thrower, (action, target, p, server, cfg) ->
+                action.onCurserItemBurned(thrower, target, item, p, cfg));
     }
 
     // === Routage commun =====================================================

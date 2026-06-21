@@ -7,7 +7,9 @@ import io.github.yutoutcourt.itfollows.fatigue.FaintManager;
 import io.github.yutoutcourt.itfollows.fatigue.FatigueManager;
 import io.github.yutoutcourt.itfollows.entity.ModEntities;
 import io.github.yutoutcourt.itfollows.net.ItFollowsNetworking;
+import io.github.yutoutcourt.itfollows.presence.PresenceManager;
 import io.github.yutoutcourt.itfollows.sieste.SiesteManager;
+import io.github.yutoutcourt.itfollows.sleep.SleepManager;
 import io.github.yutoutcourt.itfollows.sound.ModSounds;
 import io.github.yutoutcourt.itfollows.tracking.HauntController;
 import net.fabricmc.api.ModInitializer;
@@ -41,6 +43,10 @@ public class Itfollows implements ModInitializer {
         SiesteManager.register();
         ServerTickEvents.END_SERVER_TICK.register(SiesteManager::tick);
 
+        // Phase 5 : sommeil profond & nuit globale (clic lit la nuit → transition de temps lissée).
+        SleepManager.register();
+        ServerTickEvents.END_SERVER_TICK.register(SleepManager::tick);
+
         // Phase 2 : entité traqueuse (enregistrement + boucle de traque serveur).
         ModEntities.register();
         ServerTickEvents.END_SERVER_TICK.register(HauntController::tick);
@@ -55,9 +61,12 @@ public class Itfollows implements ModInitializer {
         CurseManager.register();
         ServerTickEvents.END_SERVER_TICK.register(CurseManager::tick);
 
+        // Phase 4a : effets de présence (intensité par joueur → overlays client + sons ciblés).
+        ServerTickEvents.END_SERVER_TICK.register(PresenceManager::tick);
+
         CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess, environment) ->
                 ItFollowsCommand.register(dispatcher));
 
-        LOGGER.info("[ItFollows] Initialisé (Phase 0 + Phase 1 : fatigue, Phase 2 : traque, Phase 3 : malédiction).");
+        LOGGER.info("[ItFollows] Initialisé (Phase 0 + Phase 1 : fatigue, Phase 2 : traque, Phase 3 : malédiction, Phase 4 : présence, Phase 5 : sommeil profond).");
     }
 }

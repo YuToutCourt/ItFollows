@@ -1,0 +1,41 @@
+{
+  "targets": [
+    "swap",
+    "ghost"
+  ],
+  "passes": [
+    {
+      "name": "itfollows_presence",
+      "intarget": "minecraft:main",
+      "outtarget": "swap",
+      "uniforms": []
+    },
+    {
+      "name": "itfollows_presence_ghost",
+      "intarget": "swap",
+      "outtarget": "minecraft:main",
+      "auxtargets": [
+        { "name": "PrevSampler", "id": "ghost" }
+      ],
+      "uniforms": []
+    },
+    {
+      "name": "blit",
+      "intarget": "minecraft:main",
+      "outtarget": "ghost",
+      "uniforms": []
+    },
+    {
+      "name": "itfollows_presence_grain",
+      "intarget": "minecraft:main",
+      "outtarget": "swap",
+      "uniforms": []
+    },
+    {
+      "name": "blit",
+      "intarget": "swap",
+      "outtarget": "minecraft:main",
+      "uniforms": []
+    }
+  ]
+}

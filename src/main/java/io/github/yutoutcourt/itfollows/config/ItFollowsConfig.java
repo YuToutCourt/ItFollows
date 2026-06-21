@@ -52,6 +52,28 @@ public class ItFollowsConfig {
     /** Récup appliquée à chaque échantillonnage (~1 s) pendant la sieste, une fois le délai passé. 0.5 ≈ 0.5 %/s. */
     public float siesteRegenPerSample = 0.5f;
 
+    // --- Phase 5 : sommeil profond & nuit globale (clic lit la NUIT) ---
+    /** Active le sommeil profond + la nuit globale. Si false, le clic lit la nuit retombe sur la sieste. */
+    public boolean deepSleepEnabled = true;
+    /** Récup appliquée à chaque échantillonnage en sommeil profond (× qualité). > sieste : récup la plus rapide. */
+    public float deepSleepRegenPerSample = 2.0f;
+    /** Délai (ticks) entre l'entrée dans le lit et le début de la récup (anti micro-sommeil). 60 = 3 s. */
+    public int deepSleepDelayTicks = 60;
+    /** Durée mini (ticks) de l'animation de transition de nuit (peu de nuit restante). 600 = 30 s. */
+    public int nightTransitionMinTicks = 600;
+    /** Durée maxi (ticks) de l'animation de transition de nuit (nuit pleine). 1200 = 60 s. */
+    public int nightTransitionMaxTicks = 1200;
+    /** Facteur d'atténuation du voile noir de sommeil pendant la transition (0-1) pour voir le ciel défiler. */
+    public float sleepDarknessFactor = 0.35f;
+    /** Active la modulation de la récup/audio par la qualité du sommeil (monstres/pluie/entité/feu de camp). */
+    public boolean sleepQualityEnabled = true;
+    /** Plancher de qualité (0-1) : même le pire sommeil récupère au moins ce facteur. */
+    public float sleepQualityMin = 0.2f;
+    /** Active les sons d'ambiance angoissants joués au dormeur (lui seul les entend). */
+    public boolean sleepAudioEnabled = true;
+    /** Intervalle (ticks) entre deux tentatives de son d'ambiance pendant le sommeil. 120 = 6 s. */
+    public int sleepAudioIntervalTicks = 120;
+
     // --- Évanouissement (quand la fatigue atteint 0) ---
     /** Durée de l'évanouissement en ticks (écran noir + immobilisation). 200 ticks = 10 s. */
     public int faintDurationTicks = 200;
@@ -257,8 +279,8 @@ public class ItFollowsConfig {
     public int curseFollowTicks = 600;
     /** Tolérance (ticks) de décrochage avant reset du suivi/immobilité. 60 = 3 s. */
     public int curseBreakGraceTicks = 60;
-    /** Durée (ticks) de l'immobilité fixe pour « Le planté ». 300 = 15 s. */
-    public int cursePlanteTicks = 300;
+    /** Durée (ticks) de l'immobilité fixe pour « Le planté ». 600 = 30 s. */
+    public int cursePlanteTicks = 600;
     /** Durée (ticks) de miroir de posture/mouvement pour mime/imitateur. 200 = 10 s. */
     public int curseMimicTicks = 200;
     /** Nombre de bascules d'accroupissement pour « Le sneak rituel ». */
@@ -266,7 +288,7 @@ public class ItFollowsConfig {
     /** Nombre de cycles accroupi/relevé rapides pour « Le yo-yo ». */
     public int curseYoyoCount = 8;
     /** Nombre de sauts pour « Le métronome ». */
-    public int curseJumpCount = 6;
+    public int curseJumpCount = 30;
     /** Nombre d'items à gaspiller (lave/vide) pour « Le sacrifice ». */
     public int curseSacrificeCount = 8;
     /** Nombre d'items à déposer au sol pour « L'autel ». */
@@ -283,10 +305,94 @@ public class ItFollowsConfig {
     public int curseRingCount = 4;
     /** Nombre de côtés à boucher pour « Le geôlier ». */
     public int curseCageSides = 3;
+    /** Nombre de panneaux à poser (avec le mot imposé) pour « Le facteur ». */
+    public int curseSignCount = 3;
     /** Durée (ticks) dans le noir à proximité pour « Le veilleur nocturne ». 160 = 8 s. */
-    public int curseDarkTicks = 160;
+    public int curseDarkTicks = 200;
     /** Durée (ticks) près de la cible endormie pour « Le veilleur de sommeil ». 120 = 6 s. */
     public int curseSleepWatchTicks = 120;
+
+    // --- Phase 4a : effets de présence (2 pistes : fatigue [tous] + distance entité [cible]) ---
+    // Piste 1 (fatigue, TOUS les joueurs, paliers 20/10/5 %) : pilotée côté client par la fatigue.
+    // Piste 2 (distance à l'entité, cible seule, bandes 30/15/10/5/<3 blocs) : distance envoyée au client.
+    // Couche « simple » : overlays HUD + audio ciblé/spatialisé. Les effets shaders (désaturation réelle,
+    // flou, distorsion wave, ghosting) et mixins (FOV tunnel, screen shake, zoom) viendront ensuite.
+    /** Active les effets de présence. */
+    public boolean presenceEnabled = true;
+    /** Intervalle (ticks) entre deux passes du calcul de présence (sync distance + roulements audio). */
+    public int presenceSampleIntervalTicks = 5;
+
+    // Piste 1 : paliers de fatigue (sur 0-100) déclenchant les effets de présence.
+    /** Fatigue ≤ ce palier : vignette légère + battement de cœur faible + sons zombie/creeper rares. 20 %. */
+    public float presenceFatigueLight = 20.0f;
+    /** Fatigue ≤ ce palier : vignette forte + assombrissement + pulsation rapide + pas derrière soi. 10 %. */
+    public float presenceFatigueStrong = 10.0f;
+    /** Fatigue ≤ ce palier : ajoute les murmures (.ogg). 5 %. */
+    public float presenceFatigueWhisper = 5.0f;
+    /** Chance (0-1) de jouer un son zombie/creeper à chaque battement quand fatigué (≤ palier léger). */
+    public float presenceMobSoundChance = 0.12f;
+
+    // Piste 2 : bandes de distance (blocs) entre l'entité et la cible.
+    /** Distance (blocs) max d'effet de l'entité : premiers effets à ce seuil, rien au-delà. */
+    public float presenceEntityMaxDistance = 30.0f;
+    /** Bande « présence confirmée » (blocs) : parasite radio + distorsion. */
+    public float presenceBandConfirmed = 15.0f;
+    /** Bande « danger » (blocs) : silhouettes 1 frame + whispers stéréo. */
+    public float presenceBandDanger = 10.0f;
+    /** Bande « très proche » (blocs) : vision tunnel + heartbeat synchronisé distance. */
+    public float presenceBandClose = 5.0f;
+    /** Bande « cut » (blocs) : silence brutal / coupure audio (approximée). */
+    public float presenceBandCut = 3.0f;
+
+    // Volumes des sons de présence (0-1).
+    /** Volume max du battement de cœur (0-1). */
+    public float heartbeatMaxVolume = 0.8f;
+    /** Volume des pas « derrière soi » (0-1). */
+    public float presenceFootstepVolume = 0.6f;
+    /** Volume des murmures (0-1). */
+    public float presenceWhisperVolume = 0.7f;
+    /** Volume du parasite radio (0-1). */
+    public float presenceRadioVolume = 0.6f;
+    /** Volume du cri de hunting (0-1). */
+    public float presenceHuntingCryVolume = 0.7f;
+    /** Volume des sons zombie/creeper d'ambiance (0-1). */
+    public float presenceMobVolume = 0.35f;
+
+    // Overlays visuels (alpha 0-1).
+    /** Alpha max de la vignette sombre des bords (0-1). */
+    public float presenceVignetteMaxAlpha = 0.45f;
+    /** Alpha max du voile d'assombrissement plein écran (0-1). */
+    public float presenceDarkenMaxAlpha = 0.2f;
+    /** Alpha max du voile gris de pseudo-désaturation (0-1). */
+    public float presenceDesaturationMaxAlpha = 0.18f;
+    /** Léger vacillement (jitter) de la vignette aux bandes proches (approx « tremblement »). */
+    public boolean presenceJitterEnabled = true;
+
+    // --- Phase 4b : effets de rendu lourds (pipeline GLSL + mixins FOV/caméra) ---
+    /** Active le pipeline post-process GLSL (désat/wave/blur/noise). Coupé auto si Iris est présent. */
+    public boolean presenceGlslEnabled = true;
+    /** Active la vision tunnel + respiration (mixin getFov). */
+    public boolean presenceFovEnabled = true;
+    /** Active le screen shake caméra (mixin Camera). */
+    public boolean presenceShakeEnabled = true;
+
+    /** Désaturation max au contact (0-1). */
+    public float presenceDesatMax = 0.9f;
+    /** Distorsion wave max (0-1). */
+    public float presenceWaveMax = 1.0f;
+    /** Flou max (0-1). */
+    public float presenceBlurMax = 1.0f;
+    /** Ghosting max (0-1, passe avancée). 1.0 figerait l'image (mix=prev pur) : garder < 0.85. */
+    public float presenceGhostMax = 0.7f;
+    /** Bruit/grain max au contact (0-1). */
+    public float presenceNoiseMax = 0.8f;
+
+    /** Facteur de FOV mini en vision tunnel (0,78 ≈ -22 %). */
+    public float presenceFovTunnelFactor = 0.78f;
+    /** Amplitude du zoom de « respiration visuelle » (0-1). */
+    public float presenceFovBreathAmplitude = 0.02f;
+    /** Amplitude max du screen shake (degrés). */
+    public float presenceShakeMaxDegrees = 0.5f;
 
     public static ItFollowsConfig get() {
         if (instance == null) {

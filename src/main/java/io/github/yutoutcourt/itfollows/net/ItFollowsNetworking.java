@@ -7,6 +7,7 @@ import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.protocol.game.ClientboundSoundPacket;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundSource;
@@ -40,6 +41,26 @@ public final class ItFollowsNetworking {
     /** Canal S2C : action accomplie ! (retour visuel/sonore de réussite chez le maudit). Payload = String (nom victime). */
     public static final ResourceLocation CURSE_RESULT =
             new ResourceLocation(Itfollows.MOD_ID, "curse_result");
+
+    /**
+     * Canal S2C : distance (blocs) entre l'entité et la cible locale, pilote les effets de présence
+     * « piste 2 ». Payload = float ; {@code -1} = pas d'entité applicable (la piste fatigue reste gérée
+     * côté client via {@code fatigue_sync}).
+     */
+    public static final ResourceLocation PRESENCE_SYNC =
+            new ResourceLocation(Itfollows.MOD_ID, "presence_sync");
+
+    /**
+     * Canal S2C : démarre la transition de nuit globale (Phase 5) sur tous les clients de l'overworld.
+     * Payload = {@code long startTime, long endTime, int durationTicks, long startMillis} (interpolation
+     * lissée + compensation de latence côté client).
+     */
+    public static final ResourceLocation SLEEP_NIGHT_START =
+            new ResourceLocation(Itfollows.MOD_ID, "sleep_night_start");
+
+    /** Canal S2C : annule la transition de nuit en cours (un dormeur s'est levé). Payload vide. */
+    public static final ResourceLocation SLEEP_NIGHT_STOP =
+            new ResourceLocation(Itfollows.MOD_ID, "sleep_night_stop");
 
     private ItFollowsNetworking() {
     }
@@ -89,6 +110,33 @@ public final class ItFollowsNetworking {
         FriendlyByteBuf buf = PacketByteBufs.create();
         buf.writeUtf(victimName);
         ServerPlayNetworking.send(player, CURSE_RESULT, buf);
+    }
+
+    /** Envoie la distance (blocs) entre l'entité et la cible ({@code -1} = aucune) pour la piste 2. */
+    public static void sendPresence(ServerPlayer player, float entityDistance) {
+        FriendlyByteBuf buf = PacketByteBufs.create();
+        buf.writeFloat(entityDistance);
+        ServerPlayNetworking.send(player, PRESENCE_SYNC, buf);
+    }
+
+    /** Diffuse le démarrage de la transition de nuit à tous les joueurs du monde concerné. */
+    public static void sendNightStart(ServerLevel world, long startTime, long endTime,
+                                      int durationTicks, long startMillis) {
+        for (ServerPlayer player : world.players()) {
+            FriendlyByteBuf buf = PacketByteBufs.create();
+            buf.writeLong(startTime);
+            buf.writeLong(endTime);
+            buf.writeVarInt(durationTicks);
+            buf.writeLong(startMillis);
+            ServerPlayNetworking.send(player, SLEEP_NIGHT_START, buf);
+        }
+    }
+
+    /** Diffuse l'annulation de la transition de nuit à tous les joueurs du monde concerné. */
+    public static void sendNightStop(ServerLevel world) {
+        for (ServerPlayer player : world.players()) {
+            ServerPlayNetworking.send(player, SLEEP_NIGHT_STOP, PacketByteBufs.create());
+        }
     }
 
     /**

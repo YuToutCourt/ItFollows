@@ -1,16 +1,37 @@
 {
-  "haunt_distant": {
-    "category": "hostile",
-    "subtitle": "subtitles.itfollows.haunt_distant",
-    "sounds": [
-      "itfollows:haunt_distant"
-    ]
-  },
   "look_behind_you": {
     "category": "hostile",
     "subtitle": "subtitles.itfollows.look_behind_you",
     "sounds": [
       "itfollows:look_behind_you"
+    ]
+  },
+  "whisper": {
+    "category": "hostile",
+    "subtitle": "subtitles.itfollows.whisper",
+    "sounds": [
+      "itfollows:whisper"
+    ]
+  },
+  "hunting_cry": {
+    "category": "hostile",
+    "subtitle": "subtitles.itfollows.hunting_cry",
+    "sounds": [
+      "itfollows:hunting_cry"
+    ]
+  },
+  "radio_static": {
+    "category": "hostile",
+    "subtitle": "subtitles.itfollows.radio_static",
+    "sounds": [
+      "itfollows:radio_static"
+    ]
+  },
+  "sleep_breath": {
+    "category": "hostile",
+    "subtitle": "subtitles.itfollows.sleep_breath",
+    "sounds": [
+      "itfollows:sleep_breath"
     ]
   }
 }

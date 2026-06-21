@@ -3,6 +3,7 @@ package io.github.yutoutcourt.itfollows.fatigue;
 import io.github.yutoutcourt.itfollows.config.ItFollowsConfig;
 import io.github.yutoutcourt.itfollows.net.ItFollowsNetworking;
 import io.github.yutoutcourt.itfollows.sieste.SiesteManager;
+import io.github.yutoutcourt.itfollows.sleep.SleepManager;
 import net.fabricmc.fabric.api.entity.event.v1.ServerPlayerEvents;
 import net.fabricmc.fabric.api.event.player.AttackEntityCallback;
 import net.fabricmc.fabric.api.event.player.PlayerBlockBreakEvents;
@@ -159,6 +160,11 @@ public final class FatigueManager {
                 // En sieste : récup rapide une fois le délai passé, sinon rien (ni régén passive).
                 if (SiesteManager.isRecovering(id, server, config)) {
                     value += config.siesteRegenPerSample;
+                }
+            } else if (SleepManager.isDeepSleeping(id)) {
+                // Sommeil profond (Phase 5) : récup la plus rapide, modulée par la qualité du sommeil.
+                if (SleepManager.isRecovering(id, server, config)) {
+                    value += config.deepSleepRegenPerSample * SleepManager.computeSleepQuality(player, config);
                 }
             } else if (!costlyThisInterval.contains(id)) {
                 value += config.passiveRegenPerSample;

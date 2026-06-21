@@ -3,6 +3,7 @@ package io.github.yutoutcourt.itfollows.sieste;
 import io.github.yutoutcourt.itfollows.config.ItFollowsConfig;
 import io.github.yutoutcourt.itfollows.fatigue.FatigueManager;
 import io.github.yutoutcourt.itfollows.fatigue.FatigueRules;
+import io.github.yutoutcourt.itfollows.sleep.SleepManager;
 import net.fabricmc.fabric.api.event.player.UseBlockCallback;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
@@ -78,12 +79,22 @@ public final class SiesteManager {
             return InteractionResult.SUCCESS;
         }
 
+        ItFollowsConfig config = ItFollowsConfig.get();
+
         // Couche le joueur via la version basse Player.startSleeping (cf. ServerPlayerNapMixin) :
         // contourne les checks vanilla (jour/monstres/portée). L'override ServerPlayer.startSleeping
         // refuserait en journée ou près d'un monstre, laissant le joueur debout → aucune récup.
-        // Pas de saut de nuit : garanti par PlayerSleepTimerMixin.
         ((NapStarter) serverPlayer).itfollows$forceNap(hitResult.getBlockPos());
-        napStartTick.put(serverPlayer.getUUID(), serverPlayer.server.getTickCount());
+
+        if (config.deepSleepEnabled && !world.isDay()) {
+            // Nuit (ou orage) : sommeil profond (Phase 5). On NE l'enregistre PAS comme sieste, donc
+            // PlayerSleepTimerMixin ne le bloque pas → il compte pour le saut de nuit, lissé par
+            // ServerLevelNightTransitionMixin.
+            SleepManager.startDeepSleep(serverPlayer, config);
+        } else {
+            // Jour : sieste (Phase 1.5). Pas de saut de nuit : garanti par PlayerSleepTimerMixin.
+            napStartTick.put(serverPlayer.getUUID(), serverPlayer.server.getTickCount());
+        }
         return InteractionResult.SUCCESS;
     }
 

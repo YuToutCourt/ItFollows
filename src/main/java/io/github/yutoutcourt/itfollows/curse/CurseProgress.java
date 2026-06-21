@@ -21,8 +21,6 @@ public final class CurseProgress {
     public int count;
     /** Heure-monde de la dernière fois où la condition était satisfaite (tolérance de décrochage). */
     public long lastSatisfiedTime = Long.MIN_VALUE;
-    /** Heure-monde de la dernière fois où le maudit était proche de la cible (poussée dans l'eau…). */
-    public long lastNearTime = Long.MIN_VALUE;
     /** Booléen précédent générique (état d'accroupissement, posture, dans-l'eau…). */
     public boolean prevBool;
     /** Second booléen précédent (mouvement de la cible pour l'imitateur…). */

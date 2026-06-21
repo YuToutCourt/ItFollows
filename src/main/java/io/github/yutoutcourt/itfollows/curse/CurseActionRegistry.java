@@ -13,14 +13,13 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.SignBlock;
-import net.minecraft.world.level.block.WallSignBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
@@ -36,9 +35,9 @@ public final class CurseActionRegistry {
 
     // Items « rares » (Le quêteur) et nourritures (Le sommelier).
     private static final List<Item> RARES = List.of(
-            Items.DIAMOND, Items.EMERALD, Items.NETHERITE_INGOT, Items.QUARTZ, Items.NETHER_STAR);
+            Items.DIAMOND, Items.QUARTZ, Items.LAPIS_LAZULI, Items.GOLDEN_APPLE, Items.GOLDEN_CARROT, Items.ENDER_PEARL, Items.EMERALD, Items.ENDER_EYE, Items.TRIDENT, Items.TOTEM_OF_UNDYING, Items.NETHERITE_INGOT, Items.NETHER_STAR);
     private static final List<Item> FOODS = List.of(
-            Items.BREAD, Items.COOKED_BEEF, Items.GOLDEN_APPLE, Items.COOKED_CHICKEN, Items.APPLE);
+            Items.BREAD, Items.COOKED_BEEF, Items.GOLDEN_APPLE, Items.COOKED_CHICKEN, Items.APPLE, Items.GOLDEN_APPLE, Items.COOKED_COD, Items.COOKED_MUTTON, Items.COOKED_PORKCHOP, Items.COOKED_RABBIT, Items.COOKED_SALMON, Items.GOLDEN_CARROT, Items.MUSHROOM_STEW, Items.PUMPKIN_PIE, Items.RABBIT_STEW, Items.SUSPICIOUS_STEW);
 
     // Blocs « signature » difficiles à obtenir (Le maçon) et sources de feu (Le pyromane).
     private static final Set<Block> DIFFICULT_BLOCKS = Set.of(
@@ -47,6 +46,10 @@ public final class CurseActionRegistry {
             Blocks.SOUL_LANTERN, Blocks.SOUL_TORCH);
     private static final Set<Block> FIRE_BLOCKS = Set.of(
             Blocks.FIRE, Blocks.SOUL_FIRE, Blocks.CAMPFIRE, Blocks.SOUL_CAMPFIRE);
+
+    // Mots imposés (Le facteur) : le maudit doit les inscrire sur ses panneaux près de la victime.
+    private static final List<String> SIGN_WORDS = List.of(
+            "FUIS", "COURS", "DANGER", "MAUDIT", "DERRIERE TOI", "IL ARRIVE", "CACHE TOI");
 
     static {
         register();
@@ -265,20 +268,30 @@ public final class CurseActionRegistry {
                 return "Détruis " + cfg.curseSacrificeCount + " objets dans la lave (ou le vide) sous les yeux de " + tn(t) + ".";
             }
             public boolean onTick(ServerPlayer c, ServerPlayer t, CurseProgress p, ItFollowsConfig cfg) {
-                if (!within(c, t, cfg.curseProximityRange + 6)) {
-                    return false;
+                // Voie « vide » (chute hors du monde) : échantillonnée. La lave passe par onCurserItemBurned
+                // (un item brûle en ~2 ticks, trop vite pour l'échantillonnage de 0,5 s).
+                if (within(c, t, cfg.curseProximityRange + 8)) {
+                    ServerLevel lvl = c.serverLevel();
+                    AABB box = t.getBoundingBox().inflate(cfg.curseProximityRange + 8);
+                    for (ItemEntity ie : lvl.getEntitiesOfClass(ItemEntity.class, box)) {
+                        long key = ie.getId();
+                        if (p.marks.contains(key) || !thrownBy(ie, c)) {
+                            continue; // seuls les objets JETÉS PAR LE MAUDIT comptent
+                        }
+                        if (ie.isInLava() || ie.getY() < lvl.getMinBuildHeight() + 1) {
+                            p.marks.add(key);
+                            p.count++;
+                        }
+                    }
                 }
-                ServerLevel lvl = c.serverLevel();
-                AABB box = t.getBoundingBox().inflate(cfg.curseProximityRange + 6);
-                for (ItemEntity ie : lvl.getEntitiesOfClass(ItemEntity.class, box)) {
-                    long key = ie.getId();
-                    if (p.marks.contains(key) || !thrownBy(ie, c)) {
-                        continue; // seuls les objets JETÉS PAR LE MAUDIT comptent
-                    }
-                    if (ie.isInLava() || ie.getY() < lvl.getMinBuildHeight() + 1) {
-                        p.marks.add(key);
-                        p.count++;
-                    }
+                p.fraction = Math.min(1.0f, (float) p.count / cfg.curseSacrificeCount);
+                return p.count >= cfg.curseSacrificeCount;
+            }
+            public boolean onCurserItemBurned(ServerPlayer c, ServerPlayer t, ItemEntity item, CurseProgress p, ItFollowsConfig cfg) {
+                long key = item.getId();
+                if (!p.marks.contains(key) && distToTarget(item.blockPosition(), t) <= cfg.curseProximityRange + 8) {
+                    p.marks.add(key);
+                    p.count++;
                 }
                 p.fraction = Math.min(1.0f, (float) p.count / cfg.curseSacrificeCount);
                 return p.count >= cfg.curseSacrificeCount;
@@ -396,52 +409,6 @@ public final class CurseActionRegistry {
             }
         });
 
-        // --- C. Contact / physique ---
-
-        add(new CurseAction() {
-            public String id() { return "bapteme"; }
-            public String name() { return "Le baptême"; }
-            public void onAssign(ServerPlayer c, ServerPlayer t, CurseProgress p, ItFollowsConfig cfg) {
-                // Mémorise l'état initial : si la cible est DÉJÀ dans l'eau, on n'auto-valide pas ;
-                // il faudra une vraie nouvelle entrée dans l'eau.
-                p.prevBool = t.isInWater();
-            }
-            public String describe(ServerPlayer c, ServerPlayer t, CurseProgress p, ItFollowsConfig cfg) {
-                return "Pousse " + tn(t) + " dans l'eau.";
-            }
-            public boolean onTick(ServerPlayer c, ServerPlayer t, CurseProgress p, ItFollowsConfig cfg) {
-                boolean inWater = t.isInWater();
-                boolean justEntered = inWater && !p.prevBool; // transition sec → eau, pas « déjà dedans »
-                p.prevBool = inWater;
-                // Complète seulement si le maudit est collé à la cible À L'INSTANT de l'entrée :
-                // signe qu'il l'a poussée, et non qu'elle est entrée seule.
-                return justEntered && within(c, t, 1.8);
-            }
-        });
-
-        add(new CurseAction() {
-            public String id() { return "chute"; }
-            public String name() { return "La chute"; }
-            public String describe(ServerPlayer c, ServerPlayer t, CurseProgress p, ItFollowsConfig cfg) {
-                return "Fais chuter " + tn(t) + " d'une petite hauteur (sans le/la tuer).";
-            }
-            public boolean onTick(ServerPlayer c, ServerPlayer t, CurseProgress p, ItFollowsConfig cfg) {
-                long now = c.serverLevel().getGameTime();
-                if (within(c, t, 4.0)) {
-                    p.lastNearTime = now;
-                }
-                boolean landed = t.onGround() && p.aux >= 3.0f;
-                boolean complete = landed && (now - p.lastNearTime) <= 60;
-                if (!t.onGround()) {
-                    p.aux = t.fallDistance;
-                }
-                if (complete) {
-                    p.aux = 0.0f;
-                }
-                return complete;
-            }
-        });
-
         // --- D. Environnement (placements difficiles) ---
 
         add(new CurseAction() {
@@ -474,7 +441,7 @@ public final class CurseActionRegistry {
             public String id() { return "tunnelier"; }
             public String name() { return "Le tunnelier"; }
             public String describe(ServerPlayer c, ServerPlayer t, CurseProgress p, ItFollowsConfig cfg) {
-                return "Creuse un tunnel descendant d'au moins " + cfg.curseTunnelLength + " blocs depuis " + tn(t) + ".";
+                return "Creuse un trou descendant d'au moins " + cfg.curseTunnelLength + " à coter " + tn(t) + ".";
             }
             public boolean onCurserBreakBlock(ServerPlayer c, ServerPlayer t, BlockPos pos, BlockState st, CurseProgress p, ItFollowsConfig cfg) {
                 if (distToTarget(pos, t) <= 4.0 && pos.getY() < t.getBlockY() + 1 && p.marks.add(pos.asLong())) {
@@ -529,7 +496,7 @@ public final class CurseActionRegistry {
             public String id() { return "pyromane"; }
             public String name() { return "Le pyromane"; }
             public String describe(ServerPlayer c, ServerPlayer t, CurseProgress p, ItFollowsConfig cfg) {
-                return "Allume " + cfg.curseFireCount + " feux ou feux de camp près de " + tn(t) + ".";
+                return "Allume " + cfg.curseFireCount + " feux de camp près de " + tn(t) + ".";
             }
             public boolean onCurserPlaceBlock(ServerPlayer c, ServerPlayer t, BlockPos pos, BlockState st, CurseProgress p, ItFollowsConfig cfg) {
                 if (FIRE_BLOCKS.contains(st.getBlock()) && distToTarget(pos, t) <= 5.0 && p.marks.add(pos.asLong())) {
@@ -544,7 +511,7 @@ public final class CurseActionRegistry {
             public String id() { return "encerclement"; }
             public String name() { return "L'encerclement"; }
             public String describe(ServerPlayer c, ServerPlayer t, CurseProgress p, ItFollowsConfig cfg) {
-                return "Pose " + cfg.curseRingCount + " blocs en cercle tout autour de " + tn(t) + ".";
+                return "Pose " + cfg.curseRingCount + " blocs autour de " + tn(t) + ".";
             }
             public boolean onCurserPlaceBlock(ServerPlayer c, ServerPlayer t, BlockPos pos, BlockState st, CurseProgress p, ItFollowsConfig cfg) {
                 double d = distToTarget(pos, t);
@@ -559,12 +526,21 @@ public final class CurseActionRegistry {
         add(new CurseAction() {
             public String id() { return "facteur"; }
             public String name() { return "Le facteur"; }
-            public String describe(ServerPlayer c, ServerPlayer t, CurseProgress p, ItFollowsConfig cfg) {
-                return "Pose un panneau à moins de 4 blocs de " + tn(t) + ".";
+            public void onAssign(ServerPlayer c, ServerPlayer t, CurseProgress p, ItFollowsConfig cfg) {
+                p.requiredLabel = SIGN_WORDS.get(c.getRandom().nextInt(SIGN_WORDS.size()));
             }
-            public boolean onCurserPlaceBlock(ServerPlayer c, ServerPlayer t, BlockPos pos, BlockState st, CurseProgress p, ItFollowsConfig cfg) {
-                Block b = st.getBlock();
-                return (b instanceof SignBlock || b instanceof WallSignBlock) && distToTarget(pos, t) <= 4.0;
+            public String describe(ServerPlayer c, ServerPlayer t, CurseProgress p, ItFollowsConfig cfg) {
+                return "Pose " + cfg.curseSignCount + " panneaux à moins de 4 blocs de " + tn(t)
+                        + ", chacun portant le mot « " + p.requiredLabel + " ».";
+            }
+            public boolean onCurserSign(ServerPlayer c, ServerPlayer t, BlockPos pos, String text, CurseProgress p, ItFollowsConfig cfg) {
+                boolean nearAndRight = distToTarget(pos, t) <= 4.0
+                        && text.toLowerCase(Locale.ROOT).contains(p.requiredLabel.toLowerCase(Locale.ROOT));
+                if (nearAndRight && p.marks.add(pos.asLong())) {
+                    p.count++;
+                }
+                p.fraction = Math.min(1.0f, (float) p.count / cfg.curseSignCount);
+                return p.count >= cfg.curseSignCount;
             }
         });
 

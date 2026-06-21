@@ -19,6 +19,12 @@ loom {
             sourceSet sourceSets.client
         }
     }
+
+    runs {
+        client {
+            property "sodium.checks.issue2561", "false"
+        }
+    }
 }
 
 fabricApi {
